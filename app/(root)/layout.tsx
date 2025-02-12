@@ -1,30 +1,31 @@
 import type { Metadata } from "next";
-import { Roboto } from 'next/font/google';
+import { Sour_Gummy } from "next/font/google";
 import "@/app/globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
-const roboto = Roboto({
-  subsets: ['latin'], 
-  weight: ['400', '700'], 
-  style: ['normal', 'italic'], 
-  display: 'swap',
+const inter = Sour_Gummy({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Nikhil Sai Portfolio",
-  description: "nikhil sai ankilla portfolio",
+  description: "Portfolio of Nikhil Sai Ankilla",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${roboto.className}`}
+        className={`${inter.className} w-full min-h-screen bg-light-primary dark:bg-dark-primary transition-all duration-300 ease-out`}
       >
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
