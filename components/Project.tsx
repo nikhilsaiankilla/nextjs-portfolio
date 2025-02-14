@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,9 +9,11 @@ const Project = () => {
             href={`/project/2`}
             className="w-full border-light-secondary dark:border-dark-secondary border-2 rounded-lg overflow-hidden group cursor-pointer">
             <div className="w-full aspect-square overflow-hidden">
-                <img
+                <Image
                     src="https://avatars.githubusercontent.com/u/109269825?v=4"
                     alt="user image"
+                    width={1000}
+                    height={500}
                     className="w-full h-full object-cover group-hover:scale-105 transition-all duration-150 ease-in-out"
                 />
             </div>

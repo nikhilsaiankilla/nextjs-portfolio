@@ -6,7 +6,7 @@ import Link from "next/link";
 const ContactSection = () => {
     return (
         <div className="w-full pb-4">
-            <h2 className="section-title my-4">Let's talk</h2>
+            <h2 className="section-title my-4">Let&pos;s talk</h2>
             <div className="w-full border-l-[0.8px] border-[#363636] pl-3 grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="w-full flex flex-col justify-around gap-4">
                     <div className="flex gap-2 items-center">

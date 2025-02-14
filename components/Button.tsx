@@ -7,7 +7,7 @@ interface ButtonProps {
   destination?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, icon, destination }) => {
+const Button: React.FC<ButtonProps> = ({ title, icon }) => {
   return (
     <button className="relative flex items-center gap-2 py-2 text-sm group">
       {icon}

@@ -4,11 +4,11 @@ import ContactSection from '@/components/ContactSection'
 import NextPageBtn from '@/components/NextPageBtn'
 import Project from '@/components/Project'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
-import { ArrowRight, Component, Database } from 'lucide-react'
+import { ArrowRight, Component } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = () => {
     return (
         <div className='page'>
             <ThemeSwitcher />

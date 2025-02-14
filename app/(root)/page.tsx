@@ -60,7 +60,7 @@ export default function Home() {
       <section id="about" className="w-full mt-10 md:mt-20">
         <h2 className="section-title">About me</h2>
         <p className="text-description mt-2 sm:mt-4 md:mt-6">Hello, I'm John Smith, a web designer with 15 years of expertise in crafting visually stunning and user-friendly digital experiences.</p>
-        <p className="text-description mt-2 sm:mt-4 md:mt-6">My journey in web design began with a curiosity for how websites work and a desire to create something meaningful on the digital canvas. Over the years, I've honed my skills in user interface design, front-end development, and user experience optimization.</p>
+        <p className="text-description mt-2 sm:mt-4 md:mt-6">My journey in web design began with a curiosity for how websites work and a desire to create something meaningful on the digital canvas. Over the years, I&pos;ve honed my skills in user interface design, front-end development, and user experience optimization.</p>
       </section>
 
       <NextPageBtn destination="/about" title="Discover My Story" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
@@ -90,7 +90,7 @@ export default function Home() {
         <div className="w-full grid grid-cols-3 sm:grid-cols-6 md:grid-cols-7 gap-2 sm:gap-4 md:gap-6">
 
           {
-            Array.from({ length: 15 }).map((i) => (<Skill />))
+            Array.from({ length: 15 }).map((_,index) => (<Skill key={index}/>))
           }
 
         </div>
@@ -116,7 +116,7 @@ export default function Home() {
         </div>
 
         <div className="w-full flex flex-col gap-5">
-          {Array.from({ length: 3 }).map((i) => <Article />)}
+          {Array.from({ length: 3 }).map((_,index) => <Article key={index}/>)}
         </div>
       </section>
 

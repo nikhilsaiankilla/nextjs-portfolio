@@ -1,12 +1,15 @@
+import Image from 'next/image'
 import React from 'react'
 
 const Skill = () => {
     return (
         <div className="w-full">
             <div className="w-full aspect-square rounded-lg overflow-hidden">
-                <img
+                <Image
                     src="https://avatars.githubusercontent.com/u/109269825?v=4"
                     alt="skill"
+                    width={1000}
+                    height={500}
                     className="w-full h-full object-contain"
                 />
             </div>

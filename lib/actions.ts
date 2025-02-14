@@ -1,6 +1,6 @@
 "use server";
 
-export async function submitContactForm(prevState: any, formData: FormData) {
+export async function submitContactForm(formData: FormData) {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const name = formData.get("name") as string;
