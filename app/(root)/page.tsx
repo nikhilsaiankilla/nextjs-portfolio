@@ -59,7 +59,7 @@ export default function Home() {
 
       <section id="about" className="w-full mt-10 md:mt-20">
         <h2 className="section-title">About me</h2>
-        <p className="text-description mt-2 sm:mt-4 md:mt-6">Hello, I'm John Smith, a web designer with 15 years of expertise in crafting visually stunning and user-friendly digital experiences.</p>
+        <p className="text-description mt-2 sm:mt-4 md:mt-6">Hello, I&pos;m John Smith, a web designer with 15 years of expertise in crafting visually stunning and user-friendly digital experiences.</p>
         <p className="text-description mt-2 sm:mt-4 md:mt-6">My journey in web design began with a curiosity for how websites work and a desire to create something meaningful on the digital canvas. Over the years, I&pos;ve honed my skills in user interface design, front-end development, and user experience optimization.</p>
       </section>
 
