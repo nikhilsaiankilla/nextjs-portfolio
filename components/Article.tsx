@@ -10,7 +10,7 @@ const Article = () => {
     return (
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 group">
             <div className="w-full aspect-video bg-red-300 rounded-md overflow-hidden">
-                <Link href='#'>
+                <Link href={'/article/1'}>
                     <Image src="https://avatars.githubusercontent.com/u/109269825?v=4"
                         alt="blog thumbnail"
                         width={500}
@@ -20,7 +20,7 @@ const Article = () => {
                 </Link>
             </div>
             <div className="w-full h-auto md:h-full flex flex-col justify-between">
-                <Link href='#'><h3 className="text-lg font-bold text-light-accent dark:text-dark-accent">The Future of Web Design: Trends to Watch in 2024</h3></Link>
+                <Link href={'/article/1'}><h3 className="text-lg font-bold text-light-accent dark:text-dark-accent">The Future of Web Design: Trends to Watch in 2024</h3></Link>
                 <p className="text-sm leading-tight font-normal text-light-secondary dark:text-dark-secondary">{reduceSize(text, 50)}</p>
                 <span className="w-full flex justify-end">
                     <NextPageBtn title="Read Article" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />

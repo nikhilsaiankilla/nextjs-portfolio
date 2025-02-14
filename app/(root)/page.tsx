@@ -2,26 +2,26 @@ import Button from "@/components/Button";
 import Navbar from "@/components/Navbar";
 import Project from "@/components/Project";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
-import { ArrowRight, Copy, DownloadIcon, GithubIcon, Linkedin, LinkedinIcon, MapPin, PhoneCall, TwitterIcon } from "lucide-react";
+import { ArrowRight, Copy, DownloadIcon, Linkedin, MapPin, TwitterIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import NextPageBtn from "@/components/NextPageBtn";
 import Skill from "@/components/Skill";
 import Certificate from "@/components/Certificate";
-import Education from "@/components/Education";
 import Article from "@/components/Article";
-import ContactForm from "@/components/ContactForm";
-import Time from "@/components/Time";
+import ContactSection from "@/components/ContactSection";
+import EducationSection from "@/components/EducationSection";
 
 export default function Home() {
 
   return (
     <div className="w-full px-5 md:px-24 lg:px-96 py-10">
+      <ThemeSwitcher />
       <Navbar />
       <section id="intro" className="w-full flex items-center md:items-end justify-center flex-col md:flex-row md:justify-between mt-16 border-b-[0.9px] border-[#363636] pb-4">
         <div className="flex items-center flex-col md:flex-row gap-4">
           <div>
-            <Image src="https://avatars.githubusercontent.com/u/109269825?v=4"
+            <Image src="/nikhil.webp"
               width={140}
               height={140}
               alt="user image"
@@ -68,7 +68,15 @@ export default function Home() {
       <section id="projects" className="w-full mt-5">
         <div className="flex items-center justify-between">
           <h2 className="section-title my-5">some of my projects</h2>
-          <NextPageBtn title="view more projects" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
+          <NextPageBtn
+            title="view more projects"
+            destination="/projects"
+            icon=
+            {
+              <ArrowRight size={14}
+                className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
+              />}
+          />
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
           <Project />
@@ -89,11 +97,7 @@ export default function Home() {
       </section>
 
       <section id="education">
-        <h2 className="section-title my-4">Education</h2>
-        <div className="w-full flex flex-col gap-4">
-          <Education />
-          <Education />
-        </div>
+        <EducationSection />
       </section>
 
       <section id="certificates">
@@ -108,7 +112,7 @@ export default function Home() {
       <section id="blog" className="blog">
         <div className="w-full flex items-center justify-between">
           <h2 className="section-title my-4">Articles & publications</h2>
-          <NextPageBtn title="view more posts" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
+          <NextPageBtn destination="/articles" title="view more posts" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
         </div>
 
         <div className="w-full flex flex-col gap-5">
@@ -117,43 +121,12 @@ export default function Home() {
       </section>
 
       <section id="contact">
-        <div className="w-full pb-4">
-          <h2 className="section-title my-4">Let's talk</h2>
-          <div className="w-full border-l-[0.8px] border-[#363636] pl-3 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="w-full flex flex-col justify-around gap-4">
-              <div className="flex gap-2 items-center">
-                <p className="text-lg text-light-secondary dark:text-dark-secondary font-normal capitalize">Time for me:</p>
-                <Time />
-              </div>
-
-              <div>
-                <p className="text-lg font-normal capitalize">Email:</p>
-                <span className="mail">
-                  <Copy size={15} /> nikhilsaiankilla@gmail.com
-                </span>
-              </div>
-
-              <div>
-                <p className="text-lg font-normal capitalize">Socials:</p>
-                <ul className="flex flex-col gap-3 mt-3">
-                  <Link href="#" target="_blank"><span className="contact-links"><TwitterIcon size={15} /> Twitter</span></Link>
-                  <Link href="#" target="_blank"><span className="contact-links"><GithubIcon size={15} /> Github</span></Link>
-                  <Link href="#" target="_blank"><span className="contact-links"><LinkedinIcon size={15} /> Linkedin</span></Link>
-                </ul>
-              </div>
-            </div>
-
-            <div className="w-full">
-              <p>Reach out:</p>
-              <ContactForm />
-            </div>
-          </div>
-        </div>
+        <ContactSection />
       </section>
 
       <footer className="w-full border-t-[0.7px] border-[#363636] mt-10 py-4 flex flex-col md:flex-row justify-center items-center md:justify-between">
-          <p className="text-sm">Developed by nikhil sai ankilla</p>
-          <span className="flex items-center text-sm">&copy; copyright 2025</span>
+        <p className="text-sm">Developed by nikhil sai ankilla</p>
+        <span className="flex items-center text-sm">&copy; copyright 2025</span>
       </footer>
     </div>
   );

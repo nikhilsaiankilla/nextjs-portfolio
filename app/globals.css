@@ -11,6 +11,10 @@ html{
     @apply capitalize font-normal text-sm;
   }
 
+  .page{
+    @apply w-full px-5 md:px-24 lg:px-96 py-10;
+  }
+
   .text-description{
     @apply text-sm md:text-lg text-light-secondary dark:text-dark-secondary;
   }
@@ -28,6 +32,6 @@ html{
   }
 
   .contact-input{
-    @apply text-sm w-full bg-[#3a3a3a] outline-none border-none rounded-md text-light-accent dark:text-dark-accent active:border-[1px] active:border-light-accent dark:active:bg-dark-accent focus:border-[1px] focus:border-light-accent dark:focus:border-dark-accent;
+    @apply text-sm w-full bg-white shadow-md dark:bg-[#3a3a3a] outline-none border-none rounded-md text-light-accent dark:text-dark-accent active:border-[1px] active:border-light-accent dark:active:bg-dark-accent focus:border-[1px] focus:border-light-accent dark:focus:border-dark-accent;
   }
 }
