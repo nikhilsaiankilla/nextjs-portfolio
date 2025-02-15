@@ -7,10 +7,38 @@ import ThemeSwitcher from '@/components/ThemeSwitcher'
 import { FETCH_PROJECT_WITH_ID } from '@/lib/quaries'
 import { sanityFetch } from '@/sanity/lib/live'
 import { ArrowRight, Component } from 'lucide-react'
-import { PortableText } from 'next-sanity'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import React from 'react'
+
+import { PortableText, PortableTextComponents } from "next-sanity";
+
+const customComponents: PortableTextComponents = {
+    marks: {
+        code: ({ children }) => (
+            <code className="bg-gray-900 text-[#E1E1E1] px-2 py-1 rounded-md text-sm font-mono w-full block">
+                {children}
+            </code>
+        ),
+    },
+    block: {
+        normal: ({ children }) => <p className="text-sm">{children}</p>,
+        h1: ({ children }) => <h1 className="text-xl font-bold text-light-accent dark:text-dark-accent">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-lg font-semibold text-light-accent dark:text-dark-accent">{children}</h2>,
+        h3: ({ children }) => <h3 className="text-lg font-semibold text-light-accent dark:text-dark-accent">{children}</h3>,
+        h4: ({ children }) => <h4 className="text-lg font-semibold text-light-accent dark:text-dark-accent">{children}</h4>,
+        h5: ({ children }) => <h5 className="text-lg font-semibold text-light-accent dark:text-dark-accent">{children}</h5>,
+        h6: ({ children }) => <h6 className="text-lg font-semibold text-light-accent dark:text-dark-accent">{children}</h6>,
+        blockquote: ({ children }) => (
+            <blockquote className="border-l-4 border-gray-500 pl-4 italic text-light-accent dark:text-dark-accent">{children}</blockquote>
+        ),
+        code: ({ children }) => (
+            <pre className="w-full max-w-full bg-[#1E1E1E] text-[#E1E1E1] p-4 rounded-lg text-sm font-mono overflow-x-auto whitespace-pre">
+                <code className="block w-full">{children}</code>
+            </pre>
+        ),
+    },
+};
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const resolvedParams = await params;
@@ -58,7 +86,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
 
                 <div className='text-description text-sm mt-4 text-left flex flex-col gap-5'>
-                    <PortableText value={project?.data.description} />
+                    <PortableText value={project?.data.description} components={customComponents} />
                 </div>
             </div>
 
