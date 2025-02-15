@@ -26,7 +26,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
     const previewText = content?.[0]?.children?.[0]?.text || "No preview available";
 
     return (
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 group">
+        <article className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 group">
             <div className="w-full aspect-video bg-gray-300 rounded-md overflow-hidden">
                 <Link href={`/article/${_id}`}>
                     <Image
@@ -34,7 +34,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
                         alt={title}
                         width={500}
                         height={400}
-                        className="group-hover:scale-105 transition-all duration-500 ease-in-out object-cover"
+                        className="w-full h-full group-hover:scale-105 transition-all duration-500 ease-in-out object-cover"
                     />
                 </Link>
             </div>
@@ -54,7 +54,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
                     />
                 </Link>
             </div>
-        </div>
+        </article>
     );
 };
 

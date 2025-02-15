@@ -31,7 +31,7 @@ export const FETCH_PROJECTS_LIMITED = `*[_type == "project"] | order(_createdAt 
 }`;
 
 
-export const FETCH_ALL_SKILLS = `*[_type == "skill"] | order(date asc){
+export const FETCH_ALL_SKILLS = `*[_type == "skill"]{
   _id,
   name,
   icon

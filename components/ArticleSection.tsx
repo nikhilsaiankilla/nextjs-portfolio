@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { FETCH_ARTICLES_LIMITED } from '@/lib/quaries'
 import { sanityFetch } from '@/sanity/lib/live'
 import React from 'react'

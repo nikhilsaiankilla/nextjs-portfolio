@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import BackBtn from '@/components/BackBtn';
 import ContactSection from '@/components/ContactSection';
 import Project from '@/components/Project'

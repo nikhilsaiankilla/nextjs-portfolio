@@ -35,3 +35,10 @@ html{
     @apply text-sm w-full bg-white shadow-md dark:bg-[#3a3a3a] outline-none border-none rounded-md text-light-accent dark:text-dark-accent active:border-[1px] active:border-light-accent dark:active:bg-dark-accent focus:border-[1px] focus:border-light-accent dark:focus:border-dark-accent;
   }
 }
+
+pre, code {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}

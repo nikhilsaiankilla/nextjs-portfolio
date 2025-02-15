@@ -40,7 +40,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                     alt={project?.data.title}
                     width={1000}
                     height={500}
-                    className="w-full object-cover rounded-md overflow-hidden aspect-square sm:aspect-video my-5"
+                    className="w-full object-cover rounded-md overflow-hidden aspect-square my-5"
                 />
 
                 <div className='flex gap-5'>
