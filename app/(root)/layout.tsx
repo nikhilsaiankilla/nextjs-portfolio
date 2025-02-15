@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Sour_Gummy } from "next/font/google";
-import "@/app/globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-
+import { Toaster } from "@/components/ui/toaster"
+import "@/app/globals.css";
 const inter = Sour_Gummy({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -25,6 +25,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} w-full min-h-screen bg-light-primary dark:bg-dark-primary transition-all duration-300 ease-out`}
       >
+        <Toaster />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

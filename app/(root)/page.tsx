@@ -1,19 +1,23 @@
 import Button from "@/components/Button";
 import Navbar from "@/components/Navbar";
-import Project from "@/components/Project";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
-import { ArrowRight, Copy, DownloadIcon, Linkedin, MapPin, TwitterIcon } from "lucide-react";
+import { ArrowRight, DownloadIcon, Linkedin, MapPin, TwitterIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import NextPageBtn from "@/components/NextPageBtn";
 import Skill from "@/components/Skill";
 import Certificate from "@/components/Certificate";
-import Article from "@/components/Article";
 import ContactSection from "@/components/ContactSection";
 import EducationSection from "@/components/EducationSection";
+import CopyEmail from "@/components/CopyEmail";
+import { FETCH_ALL_SKILLS, FETCH_LATEST_RESUME } from "@/lib/quaries";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import ProjectSection from "@/components/ProjectSection";
+import ArticleSection from "@/components/ArticleSection";
 
-export default function Home() {
-
+export default async function Home() {
+  const { data: resume } = await sanityFetch({ query: FETCH_LATEST_RESUME })
+  const { data: skills } = await sanityFetch({ query: FETCH_ALL_SKILLS })
   return (
     <div className="w-full px-5 md:px-24 lg:px-96 py-10">
       <ThemeSwitcher />
@@ -38,34 +42,34 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-2 md:mt-0">
-          <Button title="Download CV" icon={<DownloadIcon size={17} />} destination="/resume" />
+          <Button title="Download CV" icon={<DownloadIcon size={17} />} destination={resume?.resumeUrl} />
         </div>
       </section>
 
       <div className="w-full flex flex-col items-center sm:flex-row justify-center sm:justify-between pt-4">
         <span className="mail text-sm">
-          <Copy size={15} /> nikhilsaiankilla@gmail.com
+          <CopyEmail />
         </span>
 
         <div className="flex gap-5">
-          <Link href='www.linkedin.com' className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out">
+          <Link href='https://www.linkedin.com/in/nikhilsaiankilla/' target="_blank" className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out">
             <Linkedin size={15} /> Linkedin
           </Link>
-          <Link href='www.linkedin.com' className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out">
+          <Link href='https://x.com/NikhilsaiAnkil1' target="_blank" className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out">
             <TwitterIcon size={15} /> Twitter
           </Link>
         </div>
       </div>
 
-      <section id="about" className="w-full mt-10 md:mt-20">
+      <section id="about" className="w-full mt-7 md:mt-20">
         <h2 className="section-title">About me</h2>
-        <p className="text-description mt-2 sm:mt-4 md:mt-6">Hello, I&pos;m John Smith, a web designer with 15 years of expertise in crafting visually stunning and user-friendly digital experiences.</p>
-        <p className="text-description mt-2 sm:mt-4 md:mt-6">My journey in web design began with a curiosity for how websites work and a desire to create something meaningful on the digital canvas. Over the years, I&pos;ve honed my skills in user interface design, front-end development, and user experience optimization.</p>
+        <p className="text-description text-sm mt-2 sm:mt-4 md:mt-6">I’m Nikhil Sai Ankilla, a Full-Stack Developer who loves turning ideas into powerful, user-friendly web applications. My coding journey started with a simple “What if I build this?” moment—fast forward to today, and I’m deep into crafting seamless UIs with React and Next.js, optimizing backends with Node.js and MySQL, and debugging my way through problems that keep me up at night (in the best way possible).</p>
+        <p className="text-description text-sm mt-2 sm:mt-4 md:mt-6">I’ve built projects like TrackMyJob, a job-tracking tool that helps job seekers stay organized, and Pitch Point, a platform for startup founders to showcase their ideas. When I’m not coding, you’ll find me reading, playing cricket, engaging with the dev community on Twitter, or attending tech events. I believe great products are built through collaboration, curiosity, and just the right amount of caffeine—let’s build something awesome together.</p>
       </section>
 
       <NextPageBtn destination="/about" title="Discover My Story" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
 
-      <section id="projects" className="w-full mt-5">
+      <section id="projects" className="w-full my-10">
         <div className="flex items-center justify-between">
           <h2 className="section-title my-5">some of my projects</h2>
           <NextPageBtn
@@ -79,46 +83,48 @@ export default function Home() {
           />
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
-          <Project />
-          <Project />
+          <ProjectSection />
         </div>
 
       </section>
 
-      <section id="stack" className="w-full mt-7">
+      <section id="stack" className="w-full  my-10">
         <h2 className="section-title my-4">Stack</h2>
-        <div className="w-full grid grid-cols-3 sm:grid-cols-6 md:grid-cols-7 gap-2 sm:gap-4 md:gap-6">
+        <div className="w-full grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-2 sm:gap-4 md:gap-6">
 
-          {
-            Array.from({ length: 15 }).map((_,index) => (<Skill key={index}/>))
-          }
+          {skills && skills.length > 0 ? (
+            skills.map((skill: any) => <Skill key={skill._id} skill={skill} />)
+          ) : (
+            <p className="text-light-secondary dark:text-dark-secondary">No skills available.</p>
+          )}
 
         </div>
       </section>
 
-      <section id="education">
+      <section id="education" className="my-10">
         <EducationSection />
       </section>
 
-      <section id="certificates">
+      <section id="certificates" className="my-10">
         <h2 className="section-title my-4">Certifications</h2>
         <ul className="w-full flex flex-col gap-7">
-          <Certificate />
-          <Certificate />
-          <Certificate />
+          <Certificate title="NodeJs - The Complete Guide" company="Udemy 2024" link="https://www.udemy.com/certificate/UC-62f3ce9f-6920-4735-8fb3-c64b6d674fc4/" />
+          <Certificate title="ReactJs - The Complete Guide" company="Udemy 2024" link="https://www.udemy.com/certificate/UC-ad1c2ac7-1c52-4267-8b37-af561204277d/" />
+          <Certificate title="The Complete Web Development" company="Udemy 2024" link="https://www.udemy.com/certificate/UC-2065797f-70c0-4ea6-a341-b149dc0bd22d/" />
         </ul>
       </section>
 
-      <section id="blog" className="blog">
+      <section id="blog" className="blog  my-10">
         <div className="w-full flex items-center justify-between">
           <h2 className="section-title my-4">Articles & publications</h2>
-          <NextPageBtn destination="/articles" title="view more posts" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
+          <NextPageBtn destination="/articles" title="View More Posts" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
         </div>
 
         <div className="w-full flex flex-col gap-5">
-          {Array.from({ length: 3 }).map((_,index) => <Article key={index}/>)}
+          <ArticleSection />
         </div>
       </section>
+
 
       <section id="contact">
         <ContactSection />
@@ -128,6 +134,7 @@ export default function Home() {
         <p className="text-sm">Developed by nikhil sai ankilla</p>
         <span className="flex items-center text-sm">&copy; copyright 2025</span>
       </footer>
+      <SanityLive />
     </div>
   );
 }
