@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from "next";
 import { Sour_Gummy } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -65,6 +66,7 @@ export default function RootLayout({
       >
         <Toaster />
         <ThemeProvider>{children}</ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
