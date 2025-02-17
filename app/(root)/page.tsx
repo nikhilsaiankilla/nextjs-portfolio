@@ -5,19 +5,19 @@ import { ArrowRight, DownloadIcon, Linkedin, MapPin, TwitterIcon } from "lucide-
 import Image from "next/image";
 import Link from "next/link";
 import NextPageBtn from "@/components/NextPageBtn";
-import Skill from "@/components/Skill";
 import Certificate from "@/components/Certificate";
 import ContactSection from "@/components/ContactSection";
 import EducationSection from "@/components/EducationSection";
 import CopyEmail from "@/components/CopyEmail";
-import { FETCH_ALL_SKILLS, FETCH_LATEST_RESUME } from "@/lib/quaries";
+import { FETCH_LATEST_RESUME } from "@/lib/quaries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import ProjectSection from "@/components/ProjectSection";
 import ArticleSection from "@/components/ArticleSection";
+import SkillSection from "@/components/SkillSection";
 
 export default async function Home() {
   const { data: resume } = await sanityFetch({ query: FETCH_LATEST_RESUME })
-  const { data: skills } = await sanityFetch({ query: FETCH_ALL_SKILLS })
+
   return (
     <div className="w-full px-5 md:px-24 lg:px-96 py-10">
       <ThemeSwitcher />
@@ -69,41 +69,11 @@ export default async function Home() {
 
       <NextPageBtn destination="/about" title="Discover My Story" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
 
-      <section id="projects" className="w-full my-10">
-        <div className="flex items-center justify-between">
-          <h2 className="section-title my-5">some of my projects</h2>
-          <NextPageBtn
-            title="view more projects"
-            destination="/projects"
-            icon=
-            {
-              <ArrowRight size={14}
-                className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
-              />}
-          />
-        </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
-          <ProjectSection />
-        </div>
+      <ProjectSection />
 
-      </section>
+      <SkillSection />
 
-      <section id="stack" className="w-full  my-10">
-        <h2 className="section-title my-4">Stack</h2>
-        <div className="w-full grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-2 sm:gap-4 md:gap-6">
-
-          {skills && skills.length > 0 ? (
-            skills.map((skill: any) => <Skill key={skill._id} skill={skill} />)
-          ) : (
-            <p className="text-light-secondary dark:text-dark-secondary">No skills available.</p>
-          )}
-
-        </div>
-      </section>
-
-      <section id="education" className="my-10">
-        <EducationSection />
-      </section>
+      <EducationSection/>
 
       <section id="certificates" className="my-10">
         <h2 className="section-title my-4">Certifications</h2>
@@ -114,21 +84,9 @@ export default async function Home() {
         </ul>
       </section>
 
-      <section id="blog" className="blog  my-10">
-        <div className="w-full flex items-center justify-between">
-          <h2 className="section-title my-4">Articles & publications</h2>
-          <NextPageBtn destination="/articles" title="View More Posts" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
-        </div>
+      <ArticleSection />
 
-        <div className="w-full flex flex-col gap-5">
-          <ArticleSection />
-        </div>
-      </section>
-
-
-      <section id="contact">
-        <ContactSection />
-      </section>
+      <ContactSection />
 
       <footer className="w-full border-t-[0.7px] border-[#363636] mt-10 py-4 flex flex-col md:flex-row justify-center items-center md:justify-between">
         <p className="text-sm">Developed by nikhil sai ankilla</p>
