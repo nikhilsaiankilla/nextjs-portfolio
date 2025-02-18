@@ -90,21 +90,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
             </div>
 
-            <div className="flex items-center justify-between">
-                <h2 className="section-title my-5">Popular Projects</h2>
-                <NextPageBtn
-                    title="view more projects"
-                    destination="/projects"
-                    icon=
-                    {
-                        <ArrowRight size={14}
-                            className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
-                        />}
-                />
-            </div>
-            <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5'>
-                <ProjectSection />
-            </div>
+            <ProjectSection />
 
             <ContactSection />
         </div >
