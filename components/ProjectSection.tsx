@@ -1,14 +1,14 @@
-export const dynamic = "force-dynamic";
-
-import { FETCH_PROJECTS_LIMITED } from '@/lib/quaries'
-import { sanityFetch } from '@/sanity/lib/live'
-import React from 'react'
-import Project from './Project'
+import { FETCH_PROJECTS_LIMITED } from '@/lib/quaries';
+import { sanityFetch } from '@/sanity/lib/live';
+import React from 'react';
+import Project from './Project';
 import NextPageBtn from './NextPageBtn';
 import { ArrowRight } from 'lucide-react';
 
 const ProjectSection = async () => {
-    const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS_LIMITED })
+    // Fetch data on every request (SSR)
+    const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS_LIMITED });
+
     return (
         <section id="projects" className="w-full my-10">
             <div className="flex items-center justify-between">
@@ -16,11 +16,7 @@ const ProjectSection = async () => {
                 <NextPageBtn
                     title="view more projects"
                     destination="/projects"
-                    icon=
-                    {
-                        <ArrowRight size={14}
-                            className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
-                        />}
+                    icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />}
                 />
             </div>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
@@ -31,7 +27,7 @@ const ProjectSection = async () => {
                 )}
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default ProjectSection
+export default ProjectSection;
