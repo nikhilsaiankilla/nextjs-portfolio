@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import Article from '@/components/Article'
 import BackBtn from '@/components/BackBtn'
 import ContactSection from '@/components/ContactSection'
@@ -7,6 +5,8 @@ import ThemeSwitcher from '@/components/ThemeSwitcher'
 import { FETCH_ARTICLES } from '@/lib/quaries'
 import { sanityFetch } from '@/sanity/lib/live'
 import React from 'react'
+
+export const revalidate = 60;
 
 const page = async () => {
     const { data: posts } = await sanityFetch({ query: FETCH_ARTICLES })

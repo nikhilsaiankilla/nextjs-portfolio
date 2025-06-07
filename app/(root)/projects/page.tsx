@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 import BackBtn from '@/components/BackBtn';
 import ContactSection from '@/components/ContactSection';

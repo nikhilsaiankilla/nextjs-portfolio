@@ -25,7 +25,7 @@ export default async function Home() {
       <section id="intro" className="w-full flex items-center md:items-end justify-center flex-col md:flex-row md:justify-between mt-16 border-b-[0.9px] border-[#363636] pb-4">
         <div className="flex items-center flex-col md:flex-row gap-4">
           <div>
-            <Image src="/nikhil.webp"
+            <Image src="/nikhil.jpg"
               width={140}
               height={140}
               alt="user image"

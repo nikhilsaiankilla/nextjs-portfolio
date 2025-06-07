@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 import { FETCH_ALL_SKILLS } from '@/lib/quaries'
 import { sanityFetch } from '@/sanity/lib/live'

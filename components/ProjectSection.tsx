@@ -5,6 +5,8 @@ import Project from './Project';
 import NextPageBtn from './NextPageBtn';
 import { ArrowRight } from 'lucide-react';
 
+export const revalidate = 60;
+
 const ProjectSection = async () => {
     // Fetch data on every request (SSR)
     const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS_LIMITED });
