@@ -1,20 +1,32 @@
 import React from 'react';
 import Skill from './Skill';
 
-/**
- * Displays a responsive section showing all technical skills.
- * Fetches data from Sanity on the server side with revalidation every 60 seconds.
- */
-
 type Props = {
     skills: Array<{
         _id: string;
         name: string;
         iconUrl: string;
     }>;
-}
+};
+
+// Define the skills to prioritize (case-insensitive)
+const IMPORTANT_SKILLS = ['TypeScript', 'Next.js', 'JavaScript', 'React', 'Tailwind CSS'];
 
 const SkillSection = async ({ skills }: Props) => {
+    const importantSkills = skills.filter((skill) =>
+        IMPORTANT_SKILLS.some(
+            (important) => skill.name.toLowerCase() === important.toLowerCase()
+        )
+    );
+
+    const otherSkills = skills.filter(
+        (skill) =>
+            !IMPORTANT_SKILLS.some(
+                (important) => skill.name.toLowerCase() === important.toLowerCase()
+            )
+    );
+
+    const sortedSkills = [...importantSkills, ...otherSkills];
 
     return (
         <section
@@ -22,7 +34,6 @@ const SkillSection = async ({ skills }: Props) => {
             className="w-full my-10"
             aria-labelledby="stack-heading"
         >
-            {/* Section title */}
             <h2
                 id="stack-heading"
                 className="section-title my-4"
@@ -32,14 +43,13 @@ const SkillSection = async ({ skills }: Props) => {
                 Stack
             </h2>
 
-            {/* Skills grid */}
             <div
                 className="w-full grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-2 sm:gap-4 md:gap-6"
                 role="list"
                 aria-label="Technologies and tools I use"
             >
-                {skills && skills.length > 0 ? (
-                    skills.map((skill: any) => (
+                {sortedSkills.length > 0 ? (
+                    sortedSkills.map((skill) => (
                         <Skill key={skill._id} skill={skill} />
                     ))
                 ) : (
