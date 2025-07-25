@@ -10,15 +10,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark:{
+        dark: {
           primary: "#121212",
-          secondary:"#ABABAB",
-          accent: "#ffffff",
+          secondary: "#e0e0e0",
+          accent: "#F44336",
         },
-        light:{
+        light: {
           primary: "#F5F5F5",
-          secondary:"gray",
-          accent: "#000000",
+          secondary: "#333333",
+          accent: "#F44336",
         },
       },
     },

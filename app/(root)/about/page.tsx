@@ -1,41 +1,127 @@
-import BackBtn from '@/components/BackBtn'
-import ContactSection from '@/components/ContactSection'
-import EducationSection from '@/components/EducationSection'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
-import React from 'react'
+import BackBtn from '@/components/BackBtn';
+import ContactSection from '@/components/ContactSection';
+import EducationSection from '@/components/EducationSection';
+import ExperienceSection from '@/components/ExperienceSection';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
+import { Metadata } from 'next';
+import React from 'react';
 
-const page = () => {
+export const metadata: Metadata = {
+  title: 'About',
+  description:
+    'Learn more about Nikhil Sai Ankilla — a Full Stack Developer skilled in building scalable, performant, and user-centric web applications using Next.js, React, Node.js, and TypeScript.',
+  keywords: [
+    'About Nikhil',
+    'About Nikhil Sai Ankilla',
+    'Nikhil Full Stack Developer',
+    'Developer Bio',
+    'Portfolio About',
+    'Next.js Developer India',
+  ],
+  openGraph: {
+    title: 'About | Nikhil Sai Ankilla',
+    description:
+      'Get to know Nikhil — a self-taught full stack developer building modern web apps with Next.js, TypeScript, and more.',
+    url: 'https://nikhilsaiportfolio.vercel.app/about',
+    siteName: 'Nikhil Sai Ankilla Portfolio',
+    images: [
+      {
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Nikhil Sai Ankilla - Full Stack Developer',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About | Nikhil Sai Ankilla',
+    description:
+      'Learn more about Nikhil — a passionate full stack developer building modern web apps.',
+    creator: '@NikhilSaiAnkil1',
+    images: ['/opengraph-image.png'],
+  },
+  alternates: {
+    canonical: 'https://nikhilsaiportfolio.vercel.app/about',
+  },
+};
+
+const Page = () => {
   return (
-    <div className='page'>
+    <div className="page">
       <BackBtn />
       <ThemeSwitcher />
-      <div className='w-full'>
-        <h2 className='section-title text-lg'>About me</h2>
+      <div className="w-full">
+        <h2 className="section-title text-lg">About Me</h2>
 
-        <div className='text-description text-sm my-5 flex flex-col gap-5'>
-          <p>I’m <strong className='text-light-accent dark:text-dark-accent'>Nikhil Sai Ankilla, a Full-Stack Developer</strong> with a passion for building scalable and user-friendly web applications. My journey into coding started with a simple curiosity—"What if I build this?"—which quickly turned into late-night debugging sessions, endless lines of code, and an obsession with solving complex problems.</p>
+        <div className="prose dark:prose-invert max-w-none my-5 leading-7 text-sm space-y-10">
+          <p>
+            I’m <strong>Nikhil Sai Ankilla</strong>, a self-taught Full Stack Developer driven by a passion for turning ideas into meaningful digital products. What started as casual curiosity soon evolved into a dedicated journey of mastering web technologies and solving real-world problems.
+          </p>
 
-          <p>Like most developers, I learned the hard way that a missing semicolon can turn into a multi-hour existential crisis. But instead of running away, I embraced the challenge. Over time, I mastered <strong className='text-light-accent dark:text-dark-accent'>React</strong>, <strong className='text-light-accent dark:text-dark-accent'>Node.js</strong>, <strong className='text-light-accent dark:text-dark-accent'>MySQL</strong>, <strong className='text-light-accent dark:text-dark-accent'>Next.js</strong>, <strong className='text-light-accent dark:text-dark-accent'>Sanity</strong>, and <strong className='text-light-accent dark:text-dark-accent'>Tailwind CSS</strong>, building high-quality applications that prioritize performance and user experience.</p>
+          <p>
+            My technical foundation spans both frontend and backend development, where I specialize in building fast, scalable, and accessible applications. I'm proficient in technologies like <strong>React</strong>, <strong>Next.js</strong>, <strong>TypeScript</strong>, <strong>Tailwind CSS</strong>, and backend systems using <strong>Node.js</strong>, <strong>Express</strong>, and <strong>Firebase</strong>. Whether it’s crafting seamless user interfaces or building resilient APIs, I focus on performance, maintainability, and user experience.
+          </p>
 
-          <p>I have worked on several projects that solve real-world problems. <strong className='text-light-accent dark:text-dark-accent'>TrackMyJob</strong> is a job application tracking tool that helps job seekers stay organized and improve their job search process. <strong className='text-light-accent dark:text-dark-accent'>Pitch Point</strong> is a Next.js-powered platform for startup founders to showcase their ideas. I also run a personal blog where I share insights on web development, debugging nightmares, and my journey as a developer.</p>
+          <p>
+            Over the years, I’ve worked on impactful projects and freelance engagements such as:
+          </p>
 
-          <p>My expertise spans both front-end and back-end development. I specialize in crafting interactive and accessible user interfaces with React and Next.js, while also developing robust APIs and scalable architectures using Node.js, Express, and Strapi. With MySQL, I design optimized database solutions that ensure efficient data handling. Whether it's building a new feature, fixing a stubborn bug, or optimizing performance, I love the process of breaking down problems and finding the best possible solutions.</p>
+          <ul className='space-y-4'>
+            <li>
+              <strong className='text-light-accent'>JobNextly</strong>
+              <p>
+                — A full-stack job tracking platform that helps users manage their job applications, gain insights, and stay organized throughout their job search.
+              </p>
+            </li>
+            <li>
+              <strong className='text-light-accent'>Pitch Point</strong>
+              <p>— A polished Next.js-based platform that enables startup founders to present their pitches, validate ideas, and share updates with potential investors.
+              </p>
+            </li>
+            <li>
+              <strong className='text-light-accent'>PurpleDry</strong>
+              <p>— As a freelance developer, I led the development of a laundry service platform, designing the landing page, managing a small team, and building an admin panel for staff, orders, coupons, and analytics.
+              </p>
+            </li>
+            <li>
+              <strong className='text-light-accent'>Hussaini Welfare Association</strong>
+              <p>— Built a secure donation platform with PDF receipt generation, role-based access, event reminders, dashboards, and analytics, improving operational efficiency and user engagement.
+              </p>
+            </li>
+          </ul>
 
-          <p>Beyond coding, I enjoy watching and playing <strong className='text-light-accent dark:text-dark-accent'>cricket</strong>, <strong className='text-light-accent dark:text-dark-accent'>reading books</strong>, and engaging with the developer community on <strong className='text-light-accent dark:text-dark-accent'>Twitter</strong>. I regularly attend technical events to stay updated with industry trends and connect with like-minded professionals. When I’m not immersed in tech, you’ll probably find me hanging out with friends and family, unwinding from the latest debugging marathon.</p>
+          <p>
+            Beyond building products, I also enjoy writing, mentoring, and contributing to the developer community. I actively share insights, tutorials, and reflections on platforms like Twitter and through my blog.
+          </p>
 
-          <p>I am always looking for opportunities to collaborate on innovative projects, contribute to open-source, or join a dynamic team that values creativity and growth. If you're a recruiter, hiring manager, or fellow developer, let's connect and build something impactful together.</p>
+          <p>
+            When I’m not immersed in code, I’m probably playing a game of <strong>cricket</strong>, exploring new books, or engaging in thought-provoking discussions with friends and fellow devs. I also love attending tech meetups and staying up to date with industry trends.
+          </p>
 
-          <p>Building scalable apps and <strong className='text-light-accent dark:text-dark-accent'>debugging life</strong>, one <strong className='text-light-accent dark:text-dark-accent'>console.log</strong> at a time.</p>
+          <p>
+            I’m always open to collaborations, freelance work, and full-time opportunities where I can make an impact. If you're building something meaningful, I’d love to be part of it.
+          </p>
+
+          <blockquote>
+            Building scalable apps and debugging life — one <code>console.log</code> at a time.
+          </blockquote>
         </div>
 
-        <div className='w-full'>
+        <div className="w-full">
+          <ExperienceSection />
+        </div>
+
+        <div className="w-full">
           <EducationSection />
         </div>
 
         <ContactSection />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

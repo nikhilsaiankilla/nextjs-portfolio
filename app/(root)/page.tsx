@@ -1,7 +1,6 @@
-import Button from "@/components/Button";
 import Navbar from "@/components/Navbar";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
-import { ArrowRight, DownloadIcon, Linkedin, MapPin, TwitterIcon } from "lucide-react";
+import { ArrowRight, Linkedin, MapPin, TwitterIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import NextPageBtn from "@/components/NextPageBtn";
@@ -9,90 +8,174 @@ import Certificate from "@/components/Certificate";
 import ContactSection from "@/components/ContactSection";
 import EducationSection from "@/components/EducationSection";
 import CopyEmail from "@/components/CopyEmail";
-import { FETCH_LATEST_RESUME } from "@/lib/quaries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import ProjectSection from "@/components/ProjectSection";
 import ArticleSection from "@/components/ArticleSection";
 import SkillSection from "@/components/SkillSection";
+import DownloadResumeBtn from "@/components/ResumeDownloadBtn";
+import ExperienceSection from "@/components/ExperienceSection";
+import { FETCH_ALL_SKILLS, FETCH_ARTICLES_LIMITED, FETCH_LATEST_RESUME, FETCH_PROJECTS_LIMITED } from "@/lib/quaries";
 
 export default async function Home() {
-  const { data: resume } = await sanityFetch({ query: FETCH_LATEST_RESUME })
+
+  const [resumeRes, projectsRes, skillsRes, postsRes] = await Promise.all([
+    sanityFetch({ query: FETCH_LATEST_RESUME }),
+    sanityFetch({ query: FETCH_PROJECTS_LIMITED }),
+    sanityFetch({ query: FETCH_ALL_SKILLS }),
+    sanityFetch({ query: FETCH_ARTICLES_LIMITED }),
+  ]);
+
+  const resume = resumeRes.data;
+  const projects = projectsRes.data;
+  const skills = skillsRes.data;
+  const posts = postsRes.data;
 
   return (
-    <div className="w-full px-5 md:px-24 lg:px-96 py-10">
-      <ThemeSwitcher />
-      <Navbar />
-      <section id="intro" className="w-full flex items-center md:items-end justify-center flex-col md:flex-row md:justify-between mt-16 border-b-[0.9px] border-[#363636] pb-4">
+    <main className="w-full px-5 md:px-24 lg:px-96 py-10" aria-label="Main content">
+
+      {/* Theme Switcher */}
+      <div aria-label="Theme switcher">
+        <ThemeSwitcher />
+      </div>
+
+      {/* Navbar */}
+      <header aria-label="Main navigation">
+        <Navbar />
+      </header>
+
+      {/* Hero Section */}
+      <section
+        id="intro"
+        className="w-full flex items-center md:items-end justify-center flex-col md:flex-row md:justify-between mt-16 border-b-[0.9px] border-[#363636] pb-4"
+        aria-label="Intro section"
+      >
         <div className="flex items-center flex-col md:flex-row gap-4">
-          <div>
-            <Image src="/nikhil.jpg"
+          <div className="w-fit rounded-full shadow-[0_0_12px_theme('colors.light.accent')] dark:shadow-[0_0_12px_theme('colors.dark.accent')] transition-all duration-300">
+            <Image
+              src="/nikhil.jpg"
               width={140}
               height={140}
-              alt="user image"
-              className="rounded-lg"
+              alt="Portrait of Nikhil Sai Ankilla, Full Stack Developer"
+              className="rounded-full border-2 border-light-accent dark:border-dark-accent"
+              priority
             />
           </div>
 
           <div className="flex flex-col gap-1 items-center md:items-start">
-            <h1 className="text-light-accent dark:text-dark-accent text-2xl font-bold capitalize">Nikhil sai ankilla</h1>
-            <h2 className="text-light-secondary dark:text-dark-secondary text-lg capitalize font-normal">Full Stack Developer</h2>
-            <h4 className="text-light-secondary dark:text-dark-secondary text-sm flex items-center gap-1"><MapPin size={15} />Hyderabad, India</h4>
-
-            <p className="text-light-secondary dark:text-dark-secondary text-xs flex items-center gap-2"><div className="w-2 h-2 bg-[#00ff3c] rounded-full"></div>Available for work</p>
+            <h1 className="text-light-accent dark:text-dark-accent text-2xl font-bold capitalize">
+              Nikhil Sai Ankilla
+            </h1>
+            <h2 className="text-light-secondary dark:text-dark-secondary text-lg capitalize font-normal">
+              Full Stack Developer
+            </h2>
+            <p className="text-light-secondary dark:text-dark-secondary text-sm flex items-center gap-1" aria-label="Location">
+              <MapPin size={15} />
+              Hyderabad, India
+            </p>
+            <p className="text-light-secondary dark:text-dark-secondary text-xs flex items-center gap-2" aria-label="Availability">
+              <span className="w-2 h-2 bg-[#00ff3c] rounded-full" aria-hidden="true"></span>
+              Available for work
+            </p>
           </div>
         </div>
+
         <div className="mt-2 md:mt-0">
-          <Button title="Download CV" icon={<DownloadIcon size={17} />} destination={resume?.resumeUrl} />
+          <DownloadResumeBtn resume={resume?.resumeUrl} />
         </div>
       </section>
 
-      <div className="w-full flex flex-col items-center sm:flex-row justify-center sm:justify-between pt-4">
-        <span className="mail text-sm">
+      {/* Social Links & Email */}
+      <section className="w-full flex flex-col items-center sm:flex-row justify-center sm:justify-between pt-4" aria-label="Contact section">
+        <span className="mail text-sm" aria-label="Email">
           <CopyEmail />
         </span>
 
-        <div className="flex gap-5">
-          <Link href='https://www.linkedin.com/in/nikhilsaiankilla/' target="_blank" className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out">
-            <Linkedin size={15} /> Linkedin
+        <nav className="flex gap-5" aria-label="Social links">
+          <Link
+            href="https://www.linkedin.com/in/nikhilsaiankilla/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn Profile"
+            className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out"
+          >
+            <Linkedin size={15} />
+            LinkedIn
           </Link>
-          <Link href='https://x.com/NikhilsaiAnkil1' target="_blank" className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out">
-            <TwitterIcon size={15} /> Twitter
+          <Link
+            href="https://x.com/NikhilsaiAnkil1"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Twitter Profile"
+            className="flex gap-1 items-center text-sm text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out"
+          >
+            <TwitterIcon size={15} />
+            Twitter
           </Link>
-        </div>
-      </div>
-
-      <section id="about" className="w-full mt-7 md:mt-20">
-        <h2 className="section-title">About me</h2>
-        <p className="text-description text-sm mt-2 sm:mt-4 md:mt-6">I’m Nikhil Sai Ankilla, a Full-Stack Developer who loves turning ideas into powerful, user-friendly web applications. My coding journey started with a simple “What if I build this?” moment—fast forward to today, and I’m deep into crafting seamless UIs with React and Next.js, optimizing backends with Node.js and MySQL, and debugging my way through problems that keep me up at night (in the best way possible).</p>
-        <p className="text-description text-sm mt-2 sm:mt-4 md:mt-6">I’ve built projects like TrackMyJob, a job-tracking tool that helps job seekers stay organized, and Pitch Point, a platform for startup founders to showcase their ideas. When I’m not coding, you’ll find me reading, playing cricket, engaging with the dev community on Twitter, or attending tech events. I believe great products are built through collaboration, curiosity, and just the right amount of caffeine—let’s build something awesome together.</p>
+        </nav>
       </section>
 
-      <NextPageBtn destination="/about" title="Discover My Story" icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />} />
+      {/* About Me */}
+      <section id="about" className="w-full mt-7 md:mt-20" aria-label="About me">
+        <h2 className="section-title">About Me</h2>
+        <p className="text-description text-sm mt-2 sm:mt-4 md:mt-6">
+          I’m Nikhil Sai Ankilla, a Full-Stack Developer who loves turning ideas into powerful, user-friendly web applications...
+        </p>
+        <p className="text-description text-sm mt-2 sm:mt-4 md:mt-6">
+          I’ve built projects like TrackMyJob, Pitch Point, and more. When I’m not coding, you’ll find me reading, playing cricket...
+        </p>
+      </section>
 
-      <ProjectSection />
+      {/* Call to action */}
+      <NextPageBtn
+        destination="/about"
+        title="Discover My Story"
+        icon={<ArrowRight size={14} className="group-hover:-rotate-45 transition-all duration-200 ease-in-out" />}
+      />
 
-      <SkillSection />
+      <ExperienceSection />
+      {/* Projects, Skills, Education */}
+      <ProjectSection projects={projects} />
+      <SkillSection skills={skills} />
+      <EducationSection />
 
-      <EducationSection/>
-
-      <section id="certificates" className="my-10">
+      {/* Certifications */}
+      <section id="certificates" className="my-10" aria-label="Certifications">
         <h2 className="section-title my-4">Certifications</h2>
         <ul className="w-full flex flex-col gap-7">
-          <Certificate title="NodeJs - The Complete Guide" company="Udemy 2024" link="https://www.udemy.com/certificate/UC-62f3ce9f-6920-4735-8fb3-c64b6d674fc4/" />
-          <Certificate title="ReactJs - The Complete Guide" company="Udemy 2024" link="https://www.udemy.com/certificate/UC-ad1c2ac7-1c52-4267-8b37-af561204277d/" />
-          <Certificate title="The Complete Web Development" company="Udemy 2024" link="https://www.udemy.com/certificate/UC-2065797f-70c0-4ea6-a341-b149dc0bd22d/" />
+          <Certificate
+            title="NodeJs - The Complete Guide"
+            company="Udemy 2024"
+            link="https://www.udemy.com/certificate/UC-62f3ce9f-6920-4735-8fb3-c64b6d674fc4/"
+          />
+          <Certificate
+            title="ReactJs - The Complete Guide"
+            company="Udemy 2024"
+            link="https://www.udemy.com/certificate/UC-ad1c2ac7-1c52-4267-8b37-af561204277d/"
+          />
+          <Certificate
+            title="The Complete Web Development"
+            company="Udemy 2024"
+            link="https://www.udemy.com/certificate/UC-2065797f-70c0-4ea6-a341-b149dc0bd22d/"
+          />
         </ul>
       </section>
 
-      <ArticleSection />
+      {/* Blogs / Articles */}
+      <ArticleSection posts={posts} />
 
+      {/* Contact Section */}
       <ContactSection />
 
-      <footer className="w-full border-t-[0.7px] border-[#363636] mt-10 py-4 flex flex-col md:flex-row justify-center items-center md:justify-between">
-        <p className="text-sm">Developed by nikhil sai ankilla</p>
-        <span className="flex items-center text-sm">&copy; copyright 2025</span>
+      {/* Footer */}
+      <footer className="w-full border-t-[0.7px] border-[#363636] mt-10 py-4 flex flex-col md:flex-row justify-center items-center md:justify-between" aria-label="Footer">
+        <p className="text-sm">Developed by Nikhil Sai Ankilla</p>
+        <span className="flex items-center text-sm">
+          &copy; copyright 2025
+        </span>
       </footer>
+
+      {/* Live Sanity Sync */}
       <SanityLive />
-    </div>
+    </main>
   );
 }
