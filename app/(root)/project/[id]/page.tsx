@@ -3,7 +3,7 @@ import Button from '@/components/Button'
 import ContactSection from '@/components/ContactSection'
 import ProjectSection from '@/components/ProjectSection'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
-import { FETCH_PROJECT_WITH_ID } from '@/lib/quaries'
+import { FETCH_PROJECT_WITH_ID, FETCH_PROJECTS_LIMITED } from '@/lib/quaries'
 import { sanityFetch } from '@/sanity/lib/live'
 import { ArrowRight, Component } from 'lucide-react'
 import Image from 'next/image'
@@ -130,6 +130,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         return notFound();
     }
 
+    const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS_LIMITED })
+
     return (
         <div className="page" aria-label={`Project page for ${project.data.title}`}>
             <ThemeSwitcher />
@@ -183,7 +185,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
             </article>
 
-            <ProjectSection />
+            <ProjectSection projects={projects} />
             <ContactSection />
         </div>
     );
