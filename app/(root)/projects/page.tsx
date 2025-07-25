@@ -1,8 +1,6 @@
-import { FETCH_PROJECTS_LIMITED } from '@/lib/quaries';
+import { FETCH_PROJECTS } from '@/lib/quaries';
 import { sanityFetch } from '@/sanity/lib/live';
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import NextPageBtn from '@/components/NextPageBtn';
 import Project from '@/components/Project';
 
 import type { Metadata } from "next";
@@ -65,7 +63,7 @@ export const revalidate = 60;
 
 const ProjectSection = async () => {
     // Fetch data on every request (SSR)
-    const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS_LIMITED });
+    const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS });
 
     return (
         <section id="projects" className="page space-y-10">
