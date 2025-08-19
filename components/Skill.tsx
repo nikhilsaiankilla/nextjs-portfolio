@@ -29,7 +29,7 @@ const Skill: React.FC<SkillProps> = ({ skill }) => {
                     className="w-full h-full object-contain"
                 />
             </div>
-            <p className="text-light-secondary dark:text-dark-secondary text-center text-sm mt-1">{name}</p>
+            <p className="text-light-secondary dark:text-dark-secondary text-center text-xs mt-2">{name}</p>
         </div>
     )
 }

@@ -22,20 +22,26 @@ export const FETCH_ARTICLES_LIMITED = `*[_type == "article"] | order(_createdAt 
   slug
 }`;
 
-export const FETCH_PROJECTS_LIMITED = `*[_type == "project"] | order(_createdAt desc) [0..3] {
+export const FETCH_PROJECTS_LIMITED = `*[_type == "project"] | order(coalesce(_updatedAt, _createdAt) desc) [0..3] {
   _id,
   title,
   tagline,
   image,
+  demo_url,
+  source_url,
+  description,
   slug
 }`;
 
 
-export const FETCH_PROJECTS = `*[_type == "project"] | order(_createdAt desc) {
+export const FETCH_PROJECTS = `*[_type == "project"] | order(coalesce(_updatedAt, _createdAt) desc) {
   _id,
   title,
   tagline,
   image,
+  demo_url,
+  source_url,
+  description,
   slug
 }`;
 

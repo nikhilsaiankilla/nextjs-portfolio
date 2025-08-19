@@ -44,9 +44,9 @@ const ProjectSection = ({ projects }: Props) => {
                 />
             </div>
 
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
+            <div className="w-full grid grid-cols-1 gap-10 mt-20">
                 {projects && projects.length > 0 ? (
-                    projects.map((project: any) => <Project key={project._id} project={project} />)
+                    projects.map((project: any, index: number) => <Project key={project._id} project={project} index={index} />)
                 ) : (
                     <p className="text-light-secondary dark:text-dark-secondary">No Projects available.</p>
                 )}

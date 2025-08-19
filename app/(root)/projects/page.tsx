@@ -4,6 +4,7 @@ import React from 'react';
 import Project from '@/components/Project';
 
 import type { Metadata } from "next";
+import BackBtn from '@/components/BackBtn';
 
 export const metadata: Metadata = {
     title: "Projects",
@@ -67,6 +68,7 @@ const ProjectSection = async () => {
 
     return (
         <section id="projects" className="page space-y-10">
+            <BackBtn />
             <div className="mt-16">
                 <h1 className="text-3xl md:text-4xl font-bold mb-2 text-dark-accent">Projects</h1>
                 <p className="text-muted-foreground text-sm">
@@ -74,9 +76,9 @@ const ProjectSection = async () => {
                     React, Node.js, and more.
                 </p>
             </div>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
+            <div className="w-full grid grid-cols-1 gap-14 mt-20">
                 {projects && projects.length > 0 ? (
-                    projects.map((project: any) => <Project key={project._id} project={project} />)
+                    projects.map((project: any, index: number) => <Project key={project._id} project={project} index={index} />)
                 ) : (
                     <p className="text-light-secondary dark:text-dark-secondary">No Projects available.</p>
                 )}

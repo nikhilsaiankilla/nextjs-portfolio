@@ -10,16 +10,31 @@ type Props = {
 };
 
 // Define the skills to prioritize (case-insensitive)
-const IMPORTANT_SKILLS = ['TypeScript', 'Next.js', 'JavaScript', 'React', 'Tailwind CSS'];
+const IMPORTANT_SKILLS = ['Ts', 'Next Js', 'Js', 'React Js', 'Tailwind CSS'];
 
 const SkillSection = async ({ skills }: Props) => {
-    const importantSkills = skills.filter((skill) =>
+    const normalizedSkills = skills.map((skill) => {
+        let name = skill.name.toLowerCase();
+        if (name === "typescript ") {
+            return { ...skill, name: "Ts" };
+        }
+        if (name === "javascript ") {
+            return { ...skill, name: "Js" };
+        }
+
+        if (name === "tailwind css") {
+            return { ...skill, name: "Tailwind" };
+        }
+        return skill;
+    });
+
+    const importantSkills = normalizedSkills.filter((skill) =>
         IMPORTANT_SKILLS.some(
             (important) => skill.name.toLowerCase() === important.toLowerCase()
         )
     );
 
-    const otherSkills = skills.filter(
+    const otherSkills = normalizedSkills.filter(
         (skill) =>
             !IMPORTANT_SKILLS.some(
                 (important) => skill.name.toLowerCase() === important.toLowerCase()
@@ -31,7 +46,7 @@ const SkillSection = async ({ skills }: Props) => {
     return (
         <section
             id="stack"
-            className="w-full my-10"
+            className="w-full my-20"
             aria-labelledby="stack-heading"
         >
             <h2
@@ -40,11 +55,11 @@ const SkillSection = async ({ skills }: Props) => {
                 role="heading"
                 aria-level={2}
             >
-                Stack
+                Tech Stack
             </h2>
 
             <div
-                className="w-full grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-2 sm:gap-4 md:gap-6"
+                className="w-full grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-6 sm:gap-4 md:gap-8"
                 role="list"
                 aria-label="Technologies and tools I use"
             >

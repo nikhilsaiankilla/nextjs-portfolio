@@ -50,13 +50,13 @@ export default async function Home() {
         aria-label="Intro section"
       >
         <div className="flex items-center flex-col md:flex-row gap-4">
-          <div className="w-fit rounded-full shadow-[0_0_12px_theme('colors.light.accent')] dark:shadow-[0_0_12px_theme('colors.dark.accent')] transition-all duration-300">
+          <div className="w-fit rounded-lg transition-all duration-300">
             <Image
               src="/nikhil.jpg"
               width={140}
               height={140}
               alt="Portrait of Nikhil Sai Ankilla, Full Stack Developer"
-              className="rounded-full border-2 border-light-accent dark:border-dark-accent"
+              className="rounded-lg"
               priority
             />
           </div>
