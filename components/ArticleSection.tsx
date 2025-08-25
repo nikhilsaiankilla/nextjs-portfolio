@@ -1,58 +1,45 @@
 import React from 'react';
 import Article from './Article';
-import NextPageBtn from './NextPageBtn';
-import { ArrowRight } from 'lucide-react';
-
-/**
- * Displays a limited number of articles or blog posts.
- * Fetches posts from Sanity CMS using SSR (revalidated every 60 seconds).
- */
+import Link from 'next/link';
+import { ArrowRight, BookOpen } from 'lucide-react';
 
 type Props = {
-    posts: any[]; // Array of articles fetched from Sanity
+    posts: any[];
 }
 
 const ArticleSection = ({ posts }: Props) => {
-
     return (
         <section
             id="blog"
-            className="blog my-10"
+            className="w-full my-16"
             aria-labelledby="articles-heading"
-            role="region"
         >
-            {/* Section heading and "View More" button */}
-            <div className="w-full flex items-center justify-between">
-                <h2
-                    id="articles-heading"
-                    className="section-title my-4"
-                    role="heading"
-                    aria-level={2}
-                >
+            <div className="flex items-center justify-between mb-10">
+                <h2 id="articles-heading" className="text-3xl font-bold flex items-center gap-3">
+                    <BookOpen size={24} />
                     Articles & Publications
                 </h2>
-
-                <NextPageBtn
-                    destination="/articles"
-                    title="View More Posts"
-                    icon={
-                        <ArrowRight
-                            size={14}
-                            className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
-                        />
-                    }
-                />
+                <Link
+                    href="/articles"
+                    className="flex items-center gap-2 text-sm md:text-base font-semibold text-black transition-transform duration-200 ease-in-out hover:translate-x-1 group"
+                >
+                    View more posts
+                    <ArrowRight
+                        size={16}
+                        className="transition-transform duration-200 ease-in-out group-hover:rotate-45"
+                        aria-hidden="true"
+                    />
+                </Link>
             </div>
 
-            {/* Render articles or a fallback message */}
-            <div className="w-full flex flex-col gap-5" aria-label="List of recent articles" role="list">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts && posts.length > 0 ? (
                     posts.map((article: any) => (
                         <Article key={article._id} article={article} />
                     ))
                 ) : (
-                    <p className="text-light-secondary dark:text-dark-secondary" role="note">
-                        No articles available.
+                    <p className="text-black text-lg col-span-full text-center" role="note">
+                        No articles available at the moment.
                     </p>
                 )}
             </div>

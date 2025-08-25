@@ -1,11 +1,13 @@
 "use client";
 import { submitContactForm } from "@/lib/actions";
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useToast } from "@/hooks/use-toast";
+import { ArrowRight, Github, Linkedin, Loader2, Mail, Star, Twitter } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
+import CopyEmail from "./CopyEmail";
 
 const ContactForm = () => {
-    const { toast } = useToast();
     const [state, formAction] = useFormState<{ error: string | null; success: string | null }>(
         async (_prevState, formData: FormData) => submitContactForm(formData),
         { error: null, success: null }
@@ -16,68 +18,112 @@ const ContactForm = () => {
 
         if (state.success) {
             toast({
-                title: "Success",
+                title: "Success!",
                 description: state.success,
-                variant: "default",
             });
         } else if (state.error) {
             toast({
-                title: "Failed",
+                title: "Failed to send message",
                 description: state.error,
                 variant: "destructive",
             });
         }
-    }, [state, toast]);
+    }, [state]);
 
     return (
-        <form action={formAction} className="w-full flex flex-col gap-5 mt-5" aria-live="polite">
-            <div className="flex flex-col gap-1">
-                <label htmlFor="name" className="text-sm font-medium">Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Your name"
-                    className="contact-input px-4 py-3"
-                    required
-                    aria-required="true"
-                    aria-describedby="name-desc"
-                />
-                <small id="name-desc" className="sr-only">Enter your full name</small>
+        <div className="w-full">
+            <h4 className="font-semibold text-base md:text-lg mb-5">Reach Out</h4>
+            <form action={formAction} className="w-full flex flex-col gap-5" aria-live="polite">
+                <div className="flex flex-col">
+                    <label htmlFor="name" className="sr-only">Name</label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Your name"
+                        className="w-full p-3 rounded-lg border border-black bg-transparent focus:outline-none focus:ring-2 focus:ring-black/50"
+                        required
+                    />
+                </div>
+
+                <div className="flex flex-col">
+                    <label htmlFor="email" className="sr-only">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="Your Email address"
+                        className="w-full p-3 rounded-lg border border-black bg-transparent focus:outline-none focus:ring-2 focus:ring-black/50"
+                        required
+                    />
+                </div>
+
+                <div className="flex flex-col">
+                    <label htmlFor="message" className="sr-only">Message</label>
+                    <textarea
+                        name="message"
+                        id="message"
+                        placeholder="Message"
+                        rows={5}
+                        className="w-full p-3 rounded-lg border border-black bg-transparent focus:outline-none focus:ring-2 focus:ring-black/50"
+                        required
+                    ></textarea>
+                </div>
+
+                <SubmitButton />
+            </form>
+
+            <div className="flex items-center w-full my-6">
+                <hr className="border-t border-dashed border-black/20 flex-grow" />
+                <span className="mx-4 text-gray-500">
+                    <Star size={20} />
+                </span>
+                <hr className="border-t border-dashed border-black/20 flex-grow" />
             </div>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="email" className="text-sm font-medium">Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Your Email address"
-                    className="contact-input px-4 py-3"
-                    required
-                    aria-required="true"
-                    aria-describedby="email-desc"
-                />
-                <small id="email-desc" className="sr-only">Enter a valid email address</small>
+            <div className="w-full mt-6">
+                <p className="font-semibold text-base md:text-lg mb-5">Or connect with me here:</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <SocialLink
+                        icon={<Twitter size={20} />}
+                        href="https://x.com/NikhilsaiAnkil1"
+                        label="@NikhilsaiAnkil1"
+                    />
+                    <SocialLink
+                        icon={<Linkedin size={20} />}
+                        href="https://www.linkedin.com/in/nikhilsaiankilla/"
+                        label="@nikhilsaiankilla"
+                    />
+                    <SocialLink
+                        icon={<Github size={20} />}
+                        href="https://github.com/nikhilsaiankilla"
+                        label="@nikhilsaiankilla"
+                    />
+                    <CopyEmail />
+                </div>
             </div>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="message" className="text-sm font-medium">Message</label>
-                <textarea
-                    name="message"
-                    id="message"
-                    placeholder="Message"
-                    rows={5}
-                    className="contact-input px-4 py-3"
-                    required
-                    aria-required="true"
-                    aria-describedby="message-desc"
-                ></textarea>
-                <small id="message-desc" className="sr-only">Type your message here</small>
-            </div>
+            <p className="text-sm text-gray-700 mt-6 text-center">
+                Hyderabad — my hometown
+            </p>
+        </div>
+    );
+};
 
-            <SubmitButton />
-        </form>
+const SocialLink = ({ icon, href, label }: { icon: ReactNode, href: string, label: string }) => {
+    return (
+        <Link
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 p-3 rounded-lg border border-black transition-all duration-300 ease-in-out hover:bg-black hover:text-white group"
+            aria-label={`Visit my ${label} profile`}
+        >
+            <div className="transition-transform duration-300 ease-in-out group-hover:scale-110">
+                {icon}
+            </div>
+            <span className="font-semibold text-base">{label}</span>
+        </Link>
     );
 };
 
@@ -87,11 +133,21 @@ const SubmitButton = () => {
     return (
         <button
             type="submit"
-            className="w-full py-2 text-center bg-light-accent dark:bg-dark-accent text-light-primary dark:text-dark-primary rounded-md disabled:opacity-70"
+            className="w-full py-3 mt-2 rounded-lg bg-black text-white font-semibold flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:bg-gray-800 disabled:bg-gray-500 disabled:cursor-not-allowed"
             disabled={pending}
             aria-disabled={pending}
         >
-            {pending ? "Sending..." : "Send Message"}
+            {pending ? (
+                <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Sending...
+                </>
+            ) : (
+                <>
+                    Send Message
+                    <ArrowRight size={18} className="transition-transform duration-200 ease-in-out group-hover:rotate-45" />
+                </>
+            )}
         </button>
     );
 };

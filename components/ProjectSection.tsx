@@ -1,7 +1,8 @@
 import React from 'react';
 import Project from './Project';
 import NextPageBtn from './NextPageBtn';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Code } from 'lucide-react';
+import Link from 'next/link';
 
 type Props = {
     projects: Array<{
@@ -23,25 +24,22 @@ const ProjectSection = ({ projects }: Props) => {
             aria-labelledby="projects-heading"
             role="region"
         >
-            <div className="flex items-center justify-between">
-                <h2
-                    id="projects-heading"
-                    className="section-title my-5"
-                >
-                    {/* SEO-friendly section heading */}
-                    Some of my projects
+            <div className="flex items-center justify-between mb-10">
+                <h2 id="projects-heading" className="text-3xl font-bold flex items-center gap-3">
+                    <Code size={24} />
+                    Projects
                 </h2>
-                <NextPageBtn
-                    title="View more projects"
-                    destination="/projects"
-                    icon={
-                        <ArrowRight
-                            size={14}
-                            className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
-                            aria-hidden="true"
-                        />
-                    }
-                />
+                <Link
+                    href="/projects"
+                    className="flex items-center gap-2 text-sm md:text-base font-semibold text-black transition-transform duration-200 ease-in-out hover:translate-x-1 group"
+                >
+                    View more projects
+                    <ArrowRight
+                        size={16}
+                        className="transition-transform duration-200 ease-in-out group-hover:-rotate-45"
+                        aria-hidden="true"
+                    />
+                </Link>
             </div>
 
             <div className="w-full grid grid-cols-1 gap-10 mt-20">

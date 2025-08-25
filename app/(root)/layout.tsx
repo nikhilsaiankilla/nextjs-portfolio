@@ -1,6 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
-import { Poppins } from "next/font/google"; 
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import "@/app/globals.css";
 import { Metadata } from 'next';
@@ -99,7 +98,7 @@ export default function RootLayout({
         className={`${poppins.className} w-full min-h-screen bg-light-primary dark:bg-dark-primary transition-all duration-300 ease-out`}
       >
         <Toaster />
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
         <Analytics />
       </body>
     </html>

@@ -1,7 +1,7 @@
 import BackBtn from '@/components/BackBtn';
 import ContactSection from '@/components/ContactSection';
 import EducationSection from '@/components/EducationSection';
-import ExperienceSection from '@/components/ExperienceSection';
+import ExperienceSection from '@/components/v2/ExperienceSection';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { Metadata } from 'next';
 import React from 'react';
