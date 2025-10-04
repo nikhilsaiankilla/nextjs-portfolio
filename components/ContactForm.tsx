@@ -2,38 +2,42 @@
 import { submitContactForm } from "@/lib/actions";
 import React, { ReactNode, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { ArrowRight, Github, Linkedin, Loader2, Mail, Star, Twitter } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Loader2, Star, Twitter } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 import CopyEmail from "./CopyEmail";
 
 const ContactForm = () => {
-    const [state, formAction] = useFormState<{ error: string | null; success: string | null }>(
-        async (_prevState, formData: FormData) => submitContactForm(formData),
-        { error: null, success: null }
-    );
 
-    useEffect(() => {
-        if (!state) return;
+    const submitForm = async (form: FormData) => {
+        try {
+            const res = await submitContactForm(form);
 
-        if (state.success) {
-            toast({
-                title: "Success!",
-                description: state.success,
-            });
-        } else if (state.error) {
+            if (res.success) {
+                toast({
+                    title: "Success!",
+                    description: res.success,
+                });
+            } else if (res.error) {
+                toast({
+                    title: "Failed to send message",
+                    description: res.error,
+                    variant: "destructive",
+                });
+            }
+        } catch (error) {
             toast({
                 title: "Failed to send message",
-                description: state.error,
+                description: "An unexpected error occurred. Please try again later.",
                 variant: "destructive",
             });
         }
-    }, [state]);
+    }
 
     return (
         <div className="w-full">
             <h4 className="font-semibold text-base md:text-lg mb-5">Reach Out</h4>
-            <form action={formAction} className="w-full flex flex-col gap-5" aria-live="polite">
+            <form action={submitForm} className="w-full flex flex-col gap-5" aria-live="polite">
                 <div className="flex flex-col">
                     <label htmlFor="name" className="sr-only">Name</label>
                     <input
@@ -104,7 +108,7 @@ const ContactForm = () => {
             </div>
 
             <p className="text-sm text-gray-700 mt-6 text-center">
-                Hyderabad — my hometown
+                Hyderabad, Telangana, India — my hometown
             </p>
         </div>
     );
@@ -122,7 +126,7 @@ const SocialLink = ({ icon, href, label }: { icon: ReactNode, href: string, labe
             <div className="transition-transform duration-300 ease-in-out group-hover:scale-110">
                 {icon}
             </div>
-            <span className="font-semibold text-base">{label}</span>
+            <span className="font-normal text-base">{label}</span>
         </Link>
     );
 };

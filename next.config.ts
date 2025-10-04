@@ -11,16 +11,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "avatars.githubusercontent.com",
+        hostname: "**",
       },
-      {
-        protocol: 'https',
-        hostname: "cdn.sanity.io",
-      },
-      {
-        protocol: 'https',
-        hostname: "www.shutterstock.com",
-      }
     ],
   },
   devIndicators: {

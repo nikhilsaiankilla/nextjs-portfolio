@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNow, isValid, parseISO } from "date-fns";
+import { remark } from 'remark';
+import html from 'remark-html';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -90,4 +92,32 @@ export const generateEmailHtmlForAuthor = (name: string, email: string, message:
 </body>
 </html>
 `
+}
+
+/**
+ * Converts a Markdown string into HTML.
+ *
+ * @param markdown - The Markdown input string.
+ * @returns A string of HTML converted from Markdown.
+ */
+export const markdownToHtml = async (markdown: string): Promise<string> => {
+    const result = await remark().use(html).process(markdown);
+    return result.toString();
+};
+
+export async function markdownToHtmlText(text: string): Promise<string> {
+    // Convert markdown to HTML
+    const html: string = await markdownToHtml(text);
+
+    // Strip all HTML tags
+    let strippedText: string = html.replace(/<[^>]*>?/gm, '');
+
+    // Remove emojis using regex (covers most common emojis)
+    strippedText = strippedText.replace(
+        /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uD000-\uDFFF]|\uD83D[\uD000-\uDFFF]|\uFE0F|\u200D)/g,
+        ''
+    );
+
+
+    return strippedText.trim();
 }

@@ -1,64 +1,63 @@
-import Image from 'next/image';
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { urlFor } from '@/sanity/lib/image';
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import type { Article } from "@/types";
 
 interface ArticleProps {
-    article: {
-        _id: string;
-        title: string;
-        content: { children: { text: string }[] }[];
-        image?: { _type: 'image'; asset: { _ref: string } };
-        slug: { current: string };
-    };
+    article: Article;
 }
 
 const Article: React.FC<ArticleProps> = ({ article }) => {
     if (!article) return null;
 
-    const { title, slug, image, content } = article;
-    const articleLink = `/articles/${slug.current}`;
-
-    const imageUrl = image
-        ? urlFor(image.asset._ref).url()
-        : 'https://via.placeholder.com/600x400.png?text=Article+Image';
-
-    const previewText = content?.[0]?.children?.[0]?.text || 'No preview available.';
+    const { title, image, id, description, createdAt } = article;
+    const articleLink = `/articles/${id}`;
 
     return (
         <Link
             href={articleLink}
-            className="h-full flex flex-col p-6 rounded-lg bg-[#E0E1E3] transition-all duration-300 ease-in-out hover:bg-[#D0D1D3] group"
             aria-label={`Read full article: ${title}`}
+            className="group flex flex-col gap-4 bg-gray-100 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
         >
-            {/* Article Image */}
-            <div className="w-full aspect-video rounded-md overflow-hidden bg-gray-400 mb-4">
+            {/* Image */}
+            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
                 <Image
-                    src={imageUrl}
-                    alt={`Cover image for article: ${title}`}
-                    width={600}
-                    height={400}
-                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                    src={image || "https://via.placeholder.com/800x450.png?text=Article+Image"}
+                    alt={title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-[1.05]"
                 />
             </div>
 
-            {/* Article Content */}
-            <div className="flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-black mb-2 leading-tight">
+            {/* Content */}
+            <div className="flex flex-col px-3 pb-3">
+                <h3 className="text-xl font-semibold tracking-tight text-dark-accent dark:text-light-accent group-hover:underline underline-offset-4 decoration-1 decoration-gray-400 transition-colors duration-200">
                     {title}
                 </h3>
-                <p className="text-sm text-gray-700 flex-grow leading-snug mb-4">
-                    {previewText.length > 150 ? `${previewText.substring(0, 150)}...` : previewText}
-                </p>
-            </div>
 
-            {/* Read More Link */}
-            <div className="mt-auto self-start">
-                <span className="flex items-center gap-1 text-black font-semibold text-sm transition-transform duration-200 ease-in-out group-hover:translate-x-1">
-                    Read Article
-                    <ArrowRight size={16} className="transition-transform duration-200 ease-in-out group-hover:-rotate-45" />
+                <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
+                    {description}
+                </p>
+
+                <span className="flex items-center mt-3">
+                    <p className="text-sm text-gray-600 mr-2">Posted On:</p>
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                        {createdAt && new Date(createdAt).toLocaleDateString("en-US", {
+                            year: 'numeric',
+                            month: 'long',
+                            day: "numeric"
+                        })}
+                    </p>
                 </span>
+
+                <div className="mt-3 flex items-center gap-1 text-sm font-medium text-dark-accent/80 dark:text-light-accent/80 group-hover:text-dark-accent dark:group-hover:text-light-accent transition-colors">
+                    Read Article
+                    <ArrowRight
+                        size={15}
+                        className="transition-transform duration-300 ease-in-out group-hover:-rotate-45 group-hover:translate-x-1"
+                    />
+                </div>
             </div>
         </Link>
     );

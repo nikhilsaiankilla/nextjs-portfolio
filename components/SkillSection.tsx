@@ -1,81 +1,33 @@
-import React from 'react';
-import { Sparkles } from 'lucide-react';
-import Image from 'next/image';
+import React from "react";
+import type { Skill } from "@/types";
+import { SkillCard } from "./SkillCard";
 
-type Props = {
-    skills: Array<{
-        _id: string;
-        name: string;
-        iconUrl: string;
-    }>;
-};
+type Props = { skills: Skill[] };
 
-// A component for a single skill card
-const SkillCard = ({ name, iconUrl }: { name: string; iconUrl: string }) => {
-    return (
-        <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-[#E0E1E3] transition-all duration-300 ease-in-out hover:bg-[#D0D1D3] hover:scale-105">
-            <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-                <Image
-                    src={iconUrl}
-                    alt={name}
-                    width={64}
-                    height={64}
-                    className="object-contain"
-                />
-            </div>
-            <span className="text-sm font-medium text-center text-black">
-                {name}
-            </span>
-        </div>
-    );
-};
-
+// Skill Section grouped by category
 const SkillSection = ({ skills }: Props) => {
-    // Normalizing names for a cleaner display
-    const normalizedSkills = skills.map((skill) => {
-        let name = skill.name;
-        if (name.toLowerCase() === "typescript") {
-            name = "TypeScript";
-        }
-        if (name.toLowerCase() === "javascript") {
-            name = "JavaScript";
-        }
-        if (name.toLowerCase() === "tailwind css") {
-            name = "Tailwind CSS";
-        }
-        if (name.toLowerCase() === "next js") {
-            name = "Next.js";
-        }
-        if (name.toLowerCase() === "react js") {
-            name = "React.js";
-        }
-        return { ...skill, name };
+    // Group skills by category
+    const skillsByCategory: Record<string, Skill[]> = {};
+    skills.forEach((skill) => {
+        const category = skill.category || "Other";
+        if (!skillsByCategory[category]) skillsByCategory[category] = [];
+        skillsByCategory[category].push(skill);
     });
 
-    console.log();
-    
     return (
-        <section
-            id="stack"
-            className="w-full my-16"
-            aria-labelledby="stack-heading"
-        >
-            <h2 id="stack-heading" className="text-3xl font-bold flex items-center gap-3 mb-10">
-                <Sparkles size={24} />
-                Tech Stack
-            </h2>
+        <section className="w-full my-16">
+            <h1 className="text-3xl font-bold mb-8">Tech Stack</h1>
 
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-6">
-                {normalizedSkills.length > 0 ? (
-                    normalizedSkills.map((skill) => (
-                        <SkillCard key={skill._id} name={skill.name} iconUrl={skill.iconUrl} />
-                    ))
-                ) : (
-                    <p className="text-black col-span-full">
-                        No skills available at the moment.
-                    </p>
-                )}
-            </div>
+            {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
+                <div key={category} className="mb-8">
+                    <h2 className="text-lg font-semibold mb-4">{category}</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                        {categorySkills.map((skill) => (
+                            <SkillCard key={skill.id} name={skill.name} iconUrl={skill.image} />
+                        ))}
+                    </div>
+                </div>
+            ))}
         </section>
     );
 };

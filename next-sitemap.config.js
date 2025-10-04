@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: 'http://localhost:3000', // Replace with your live site when deployed
+    siteUrl: 'https://nikhilsaiankilla.blog', // Replace with your live site when deployed
     generateRobotsTxt: true,
     generateIndexSitemap: true,
     sitemapSize: 7000,

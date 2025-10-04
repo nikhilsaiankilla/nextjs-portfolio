@@ -2,6 +2,7 @@
 
 import { sendEmailClient } from "@/services/sendMail";
 import { generateEmailHtmlForAuthor, generateEmailHtmlForClient } from "./utils";
+import { adminDatabase } from "./firebaseAdmin";
 
 export async function submitContactForm(formData: FormData) {
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
@@ -25,6 +26,24 @@ export async function submitContactForm(formData: FormData) {
         await sendEmailClient(email, "Thanks For Reaching Out", htmlForClient)
         return { success: "Message sent successfully!" };
     } catch (error) {
+        console.log(error);
         return { error: "something went wrong" }
+    }
+}
+
+export async function getResume() {
+    try {
+        const snapshot = await adminDatabase.collection('resume').limit(1).get(); // fetch the first doc
+        if (snapshot.empty) {
+            return { success: false };
+        }
+
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+
+        return { success: true, resumeUrl: data?.url || null };
+    } catch (error) {
+        console.error("Error fetching resume:", error);
+        return { success: false };
     }
 }

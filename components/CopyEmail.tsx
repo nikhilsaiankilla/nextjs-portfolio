@@ -32,11 +32,8 @@ const CopyEmail = () => {
             title="Click to copy email"
             className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer border-black transition-all duration-300 ease-in-out hover:bg-black hover:text-white group">
             {/* Accessible button with icon */}
-            <button
-                className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-            >
-                <Mail />
-            </button>
+
+            <Mail />
 
             {/* Display email next to icon */}
             <span className="email text-sm select-text">nikhilsaiankilla@gmail.com</span>

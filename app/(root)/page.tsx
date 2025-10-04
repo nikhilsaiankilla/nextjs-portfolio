@@ -1,39 +1,122 @@
-import { ArrowRight, Linkedin, MapPin, TwitterIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import NextPageBtn from "@/components/NextPageBtn";
-import Certificate from "@/components/Certificate";
 import ContactSection from "@/components/ContactSection";
 import EducationSection from "@/components/EducationSection";
-import CopyEmail from "@/components/CopyEmail";
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import ProjectSection from "@/components/ProjectSection";
 import ArticleSection from "@/components/ArticleSection";
 import SkillSection from "@/components/SkillSection";
-import DownloadResumeBtn from "@/components/ResumeDownloadBtn";
 import ExperienceSection from "@/components/v2/ExperienceSection";
-import { FETCH_ALL_SKILLS, FETCH_ARTICLES_LIMITED, FETCH_LATEST_RESUME, FETCH_PROJECTS_LIMITED } from "@/lib/quaries";
 import Navbar from "@/components/v2/Navbar";
 import CertificationsSection from "@/components/v2/CertificationsSection";
 
+import { adminDatabase } from "../../lib/firebaseAdmin";
+import { Article, Project, Skill } from "@/types";
+import { markdownToHtmlText } from "@/lib/utils";
+
+async function getProjects() {
+  try {
+    const res = await adminDatabase.collection("projects").orderBy("createdAt", "asc").limit(3).get();
+
+    if (res.empty) {
+      return [];
+    }
+
+    const projects: Project[] = res.docs.map((doc: any) => {
+      const data = doc.data();
+
+      return {
+        id: doc.id,
+        title: data.title,
+        image: data.image,
+        tagline: data.tagline,
+        problem: data.problem,
+        description: data.description,
+        githubUrl: data.githubUrl,
+        demoUrl: data.demoUrl,
+        skills: Array.isArray(data.skills) ? data.skills : [],
+      }
+    })
+
+    return projects;
+  } catch (error) {
+    console.log("Error fetching projects:", error);
+    return [];
+  }
+}
+
+async function getSkills() {
+  try {
+    const res = await adminDatabase.collection("skills").get();
+
+    if (res.empty) {
+      return [];
+    }
+
+    const skills: Skill[] = res.docs.map((doc: any) => {
+      const data = doc.data();
+
+      return {
+        id: doc.id,
+        name: data.name,
+        category: data.category,
+        image: data.image,
+      }
+    })
+
+    return skills;
+  } catch (error) {
+    console.log("Error fetching skills:", error);
+    return [];
+  }
+}
+
+async function getPosts() {
+  try {
+    const res = await adminDatabase.collection("articles").orderBy("createdAt", "asc").limit(3).get();
+
+    if (res.empty) {
+      return [];
+    }
+
+    const posts: Article[] = await Promise.all(
+      res.docs.map(async (doc: any) => {
+        const data = doc.data();
+
+        const descriptionHtml = data?.description ? await markdownToHtmlText(data.description) : "";
+
+        return {
+          id: doc.id,
+          title: data.title,
+          tagline: data.tagline,
+          description: descriptionHtml,
+          image: data.image,
+          createdAt: data.createdAt
+        }
+      })
+    );
+    return posts;
+  } catch (error) {
+    console.log("Error fetching posts:", error);
+    return [];
+  }
+}
+
 export default async function Home() {
+  let projects: Project[] = [];
+  let skills: Skill[] = [];
+  let posts: Article[] = [];
 
-  const [resumeRes, projectsRes, skillsRes, postsRes] = await Promise.all([
-    sanityFetch({ query: FETCH_LATEST_RESUME }),
-    sanityFetch({ query: FETCH_PROJECTS_LIMITED }),
-    sanityFetch({ query: FETCH_ALL_SKILLS }),
-    sanityFetch({ query: FETCH_ARTICLES_LIMITED }),
-  ]);
 
-  const resume = resumeRes.data;
-  const projects = projectsRes.data;
-  const skills = skillsRes.data;
-  const posts = postsRes.data;
+  try {
+    [projects, skills, posts] = await Promise.all([
+      getProjects(),
+      getSkills(),
+      getPosts(),
+    ]);
+  } catch (error) {
+    console.error("Failed to fetch data from Firestore:", error);
+  }
 
   return (
     <main className="w-full px-5 md:px-24 lg:px-52 bg-[#F0F1F3]" aria-label="Main content">
-      <Navbar />
-
       {/* Hero Section */}
       <section
         id="intro"
@@ -41,28 +124,21 @@ export default async function Home() {
         aria-label="Intro section"
       >
         <h1 className="text-4xl md:text-7xl font-bold">Hi, I'm Nikhil Sai.</h1>
-
-        <p className="text-sm md:text-2xl font-normal">UI/UX Designer & Ambitious Content Creator. Currently, I'm based in the New York City Area, designing responsive websites and leading the creative process at Adspace Agency.</p>
+        <p className="text-sm md:text-2xl font-normal">
+          Software Development Engineer & Full-Stack Developer. Based in Hyderabad, creating scalable web applications, designing robust systems, and actively seeking new opportunities.
+        </p>
       </section>
 
       <ExperienceSection />
-      {/* Projects, Skills, Education */}
       <ProjectSection projects={projects} />
       <SkillSection skills={skills} />
       <EducationSection />
-
       <CertificationsSection />
-
-      {/* Blogs / Articles */}
       <ArticleSection posts={posts} />
+      <div className="my-16">
+        <ContactSection />
+      </div>
 
-      {/* Contact Section */}
-      <ContactSection />
-
-      {/* Live Sanity Sync */}
-      <SanityLive />
-
-      {/* Footer */}
       <footer className="w-full border-t-[0.7px] border-[#363636] mt-10 py-4 flex flex-col md:flex-row justify-center items-center md:justify-between" aria-label="Footer">
         <p className="text-sm">Developed by Nikhil Sai Ankilla</p>
         <span className="flex items-center text-sm">

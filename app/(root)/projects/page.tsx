@@ -1,10 +1,8 @@
-import { FETCH_PROJECTS } from '@/lib/quaries';
-import { sanityFetch } from '@/sanity/lib/live';
-import React from 'react';
-import Project from '@/components/Project';
-
+import React from "react";
+import Project from "@/components/Project";
 import type { Metadata } from "next";
-import BackBtn from '@/components/BackBtn';
+import BackBtn from "@/components/BackBtn";
+import { adminDatabase } from "@/lib/firebaseAdmin";
 
 export const metadata: Metadata = {
     title: "Projects",
@@ -34,7 +32,7 @@ export const metadata: Metadata = {
         title: "Projects | Nikhil Sai Ankilla",
         description:
             "Browse the projects built by Nikhil Sai Ankilla, showcasing expertise in full stack development, UI/UX, APIs, and scalable architecture.",
-        url: "https://nikhilsaiportfolio.vercel.app/projects",
+        url: "https://nikhilsaiankilla.blog/projects",
         siteName: "Nikhil Sai Ankilla Portfolio",
         images: [
             {
@@ -56,31 +54,66 @@ export const metadata: Metadata = {
         images: ["/opengraph-image.png"],
     },
     alternates: {
-        canonical: "https://nikhilsaiportfolio.vercel.app/projects",
+        canonical: "https://nikhilsaiankilla.blog/projects",
     },
 };
 
 export const revalidate = 60;
 
+async function getProjects() {
+    try {
+        const res = await adminDatabase.collection("projects").orderBy("createdAt", "asc").get();
+
+        if (res.empty) {
+            return [];
+        }
+
+        const projects: Project[] = res.docs.map((doc: any) => {
+            const data = doc.data();
+
+            return {
+                id: doc.id,
+                title: data.title,
+                image: data.image,
+                tagline: data.tagline,
+                problem: data.problem,
+                description: data.description,
+                githubUrl: data.githubUrl,
+                demoUrl: data.demoUrl,
+                skills: Array.isArray(data.skills) ? data.skills : [],
+            }
+        })
+
+        return projects;
+    } catch (error) {
+        console.log("Error fetching projects:", error);
+        return [];
+    }
+}
+
 const ProjectSection = async () => {
-    // Fetch data on every request (SSR)
-    const { data: projects } = await sanityFetch({ query: FETCH_PROJECTS });
+    const projects = await getProjects(); // default: 6 projects
 
     return (
-        <section id="projects" className="page space-y-10">
-            <BackBtn />
+        <section id="projects" className="w-full px-5 md:px-24 lg:px-52 pt-5 pb-10 bg-[#F0F1F3] space-y-10">
             <div className="mt-16">
-                <h1 className="text-3xl md:text-4xl font-bold mb-2 text-dark-accent">Projects</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">
+                    Projects
+                </h1>
                 <p className="text-muted-foreground text-sm">
-                    Explore some of the projects I’ve built using modern full stack technologies like Next.js,
-                    React, Node.js, and more.
+                    Explore some of the projects I’ve built using modern full stack
+                    technologies like Next.js, React, Node.js, and more.
                 </p>
             </div>
             <div className="w-full grid grid-cols-1 gap-14 mt-20">
                 {projects && projects.length > 0 ? (
-                    projects.map((project: any, index: number) => <Project key={project._id} project={project} index={index} />)
+                    projects.map((project, index) => (
+                        <Project key={project.id} project={project} index={index} />
+                    ))
                 ) : (
-                    <p className="text-light-secondary dark:text-dark-secondary">No Projects available.</p>
+                    <p className="text-light-secondary dark:text-dark-secondary">
+                        No Projects available.
+                    </p>
                 )}
             </div>
         </section>

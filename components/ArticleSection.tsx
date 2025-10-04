@@ -3,9 +3,9 @@ import Article from './Article';
 import Link from 'next/link';
 import { ArrowRight, BookOpen } from 'lucide-react';
 
-type Props = {
-    posts: any[];
-}
+import type { Article as ArticleType } from "@/types";
+
+type Props = { posts: ArticleType[] };
 
 const ArticleSection = ({ posts }: Props) => {
     return (
@@ -34,8 +34,8 @@ const ArticleSection = ({ posts }: Props) => {
 
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts && posts.length > 0 ? (
-                    posts.map((article: any) => (
-                        <Article key={article._id} article={article} />
+                    posts.map((article: ArticleType) => (
+                        <Article key={article.id} article={article} />
                     ))
                 ) : (
                     <p className="text-black text-lg col-span-full text-center" role="note">
