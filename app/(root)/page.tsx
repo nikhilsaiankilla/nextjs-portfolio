@@ -117,7 +117,7 @@ export default async function Home() {
 
   return (
     <main className="w-full px-5 md:px-24 lg:px-52 bg-[#F0F1F3]" aria-label="Main content">
-      {/* Hero Section */}
+      {/* Hero Sectio */}
       <section
         id="intro"
         className="w-full min-h-[55vh] flex items-start mt-52 space-y-10 flex-col"
