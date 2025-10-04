@@ -1,9 +1,10 @@
 import { Analytics } from '@vercel/analytics/react';
-import { Poppins } from "next/font/google"; 
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import "@/app/globals.css";
 import { Metadata } from 'next';
+import Navbar from '@/components/v2/Navbar';
+import FooterSection from '@/components/FooterSection';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -47,12 +48,12 @@ export const metadata: Metadata = {
     "Tech Resume",
     "Personal Website",
   ],
-  metadataBase: new URL("https://nikhilsaiportfolio.vercel.app/"), // replace with your actual domain
+  metadataBase: new URL("https://nikhilsaiankilla.blog/"), // replace with your actual domain
   openGraph: {
     title: "Nikhil sai ankilla | Full Stack Developer",
     description:
       "Explore my developer portfolio showcasing projects, skills, and experience in full stack development.",
-    url: "https://nikhilsaiportfolio.vercel.app/",
+    url: "https://nikhilsaiankilla.blog/",
     siteName: "Nikhil sai ankilla Portfolio",
     images: [
       {
@@ -73,7 +74,7 @@ export const metadata: Metadata = {
     creator: "@NikhilSaiAnkil1", // optional
     images: ["/opengraph-image.png"],
   },
-  authors: [{ name: "Nikhil", url: "https://nikhilsaiportfolio.vercel.app/" }],
+  authors: [{ name: "Nikhil", url: "https://nikhilsaiankilla.blog/" }],
   creator: "Nikhil sai ankilla",
   robots: {
     index: true,
@@ -84,7 +85,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://nikhilsaiportfolio.vercel.app/",
+    canonical: "https://nikhilsaiankilla.blog/",
   },
 };
 
@@ -96,11 +97,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} w-full min-h-screen bg-light-primary dark:bg-dark-primary transition-all duration-300 ease-out`}
+        className={`${poppins.className} w-full min-h-screen bg-[#F0F1F3] transition-all duration-300 ease-out`}
       >
+        <Navbar />
         <Toaster />
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
         <Analytics />
+        <FooterSection />
       </body>
     </html>
   );

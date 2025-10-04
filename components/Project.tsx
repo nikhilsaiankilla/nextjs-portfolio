@@ -1,32 +1,32 @@
-import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import NextPageBtn from "./NextPageBtn";
 import { ArrowRight } from "lucide-react";
-import { PortableText, PortableTextComponents } from "next-sanity";
+import type { Project } from "@/types";
 
 interface ProjectProps {
-    project: {
-        _id: string;
-        title: string;
-        tagline: string;
-        demo_url: string;
-        source_url: string;
-        image?: { _type: "image"; asset: { _ref: string } };
-    };
-    index: number; // 👈 add index prop
+    project: Project;
+    index: number;
 }
+
+// export type Project = {
+//     id: string;
+//     title: string;
+//     image: string;
+//     tagline?: string;
+//     problem?: string;
+//     description?: string;
+//     githubUrl?: string;
+//     demoUrl?: string;
+//     createdAt?: number;
+//     updatedAt?: number;
+//     skills: string[];
+// };
 
 const Project: React.FC<ProjectProps> = ({ project, index }) => {
     if (!project) return null;
 
-    const { title, _id, image, tagline, demo_url, source_url } = project;
-
-    const imageUrl = image
-        ? urlFor(image.asset._ref).url()
-        : "https://via.placeholder.com/500";
-
+    const { id, title, description, tagline, image, demoUrl, githubUrl, problem } = project;
     const isEven = index % 2 === 0;
 
     return (
@@ -44,86 +44,102 @@ const Project: React.FC<ProjectProps> = ({ project, index }) => {
                     0{index + 1}
                 </h1>
 
-                {/* Glassmorphic Content Box */}
-                <div className="relative z-10 backdrop-blur-md bg-white/10 dark:bg-black/20 rounded-xl p-4 shadow-lg">
+                {/* Content Box */}
+                <div className="relative z-10 rounded-xl p-4 md:p-6">
+                    {/* Title */}
                     <h2
-                        className="text-2xl font-bold text-light-accent dark:text-dark-accent tracking-tight"
+                        className="text-2xl md:text-3xl font-semibold text-gray-900 tracking-tight uppercase"
                         role="heading"
                         aria-level={2}
                     >
                         {title}
                     </h2>
-                    <p className="text-description text-sm mt-2 line-clamp-4">
-                        {tagline}
-                    </p>
 
-                    <div className="flex items-center gap-3 flex-wrap mt-4">
+                    {/* Tagline */}
+                    {tagline && (
+                        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-1">
+                            {tagline}
+                        </p>
+                    )}
+
+                    {/* Problem */}
+                    {problem && (
+                        <p className="text-sm italic text-gray-500 dark:text-gray-500 mt-3">
+                            {problem}
+                        </p>
+                    )}
+
+                    {/* Description */}
+                    {description && (
+                        <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mt-3 line-clamp-4 leading-relaxed">
+                            {description}
+                        </p>
+                    )}
+
+                    {/* Links */}
+                    <div className="flex items-center gap-4 flex-wrap mt-5">
+                        {/* Project Link */}
                         <Link
-                            href={demo_url}
-                            role="link"
-                            // Improves accessibility for screen readers
-                            aria-label={`Navigate to ${title}`}
-                            className="relative flex items-center gap-2 py-2 text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out text-sm group"
+                            href={demoUrl || "#"}
+                            aria-label={`Visit live project: ${title}`}
+                            className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
                         >
                             View Project
-
-                            <span
-                                className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-500 opacity-50 group-hover:opacity-100
-        before:absolute before:bottom-0 before:left-0 before:h-full before:w-0
-        before:bg-light-accent dark:before:bg-dark-accent
-        before:transition-all before:duration-300 before:ease-in-out
-        group-hover:before:w-full"
-                                aria-hidden="true"
-                            />
-
                             <ArrowRight
                                 size={14}
-                                className="group-hover:-rotate-45 transition-all duration-300 ease-in-out"
+                                className="group-hover:-rotate-45 transition-transform duration-300 ease-in-out"
                             />
                         </Link>
-                        <Link
-                            href={source_url}
-                            role="link"
-                            // Improves accessibility for screen readers
-                            aria-label={`Navigate to ${title}`}
-                            className="relative flex items-center gap-2 py-2 text-light-secondary dark:text-dark-secondary hover:text-light-accent dark:hover:text-dark-accent transition-all duration-150 ease-in-out text-sm group"
-                        >
-                            View Source Code
 
-                            <span
-                                className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-500 opacity-50 group-hover:opacity-100
-        before:absolute before:bottom-0 before:left-0 before:h-full before:w-0
-        before:bg-light-accent dark:before:bg-dark-accent
-        before:transition-all before:duration-300 before:ease-in-out
-        group-hover:before:w-full"
-                                aria-hidden="true"
-                            />
-                            <ArrowRight
-                                size={14}
-                                className="group-hover:-rotate-45 transition-all duration-300 ease-in-out"
-                            />
-                        </Link>
+                        {/* GitHub Link */}
+                        {githubUrl && (
+                            <Link
+                                href={githubUrl}
+                                aria-label={`View source code for ${title}`}
+                                className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
+                            >
+                                View Source Code
+                                <ArrowRight
+                                    size={14}
+                                    className="group-hover:-rotate-45 transition-transform duration-300 ease-in-out"
+                                />
+                            </Link>
+                        )}
+
+                        {id && (
+                            <Link
+                                href={`/projects/${id}`}
+                                aria-label={`View source code for ${title}`}
+                                className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
+                            >
+                                More Details
+                                <ArrowRight
+                                    size={14}
+                                    className="group-hover:-rotate-45 transition-transform duration-300 ease-in-out"
+                                />
+                            </Link>
+                        )}
                     </div>
                 </div>
+
             </div>
 
             {/* Image */}
             <Link
-                href={`/project/${_id}`}
+                href={`/project/${id}`}
                 aria-label={`View details of project titled ${title}`}
-                className="md:w-1/2 w-full relative rounded-2xl overflow-hidden">
+                className="md:w-1/2 w-full relative rounded-2xl overflow-hidden"
+            >
                 <Image
-                    src={imageUrl}
-                    alt={`Thumbnail image for project ${title}`}
+                    src={image || "https://via.placeholder.com/500"}
+                    alt={`Thumbnail for ${title}`}
                     width={1000}
                     height={600}
-                    className="w-full h-full rounded-2xl object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                    priority={false}
+                    className="w-full h-full aspect-square rounded-2xl object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
-                {/* Subtle overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
             </Link>
-        </div >
+        </div>
     );
 };
 

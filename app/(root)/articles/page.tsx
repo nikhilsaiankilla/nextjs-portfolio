@@ -1,12 +1,9 @@
-import Article from '@/components/Article'
-import BackBtn from '@/components/BackBtn'
-import ContactSection from '@/components/ContactSection'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
-import { FETCH_ARTICLES } from '@/lib/quaries'
-import { sanityFetch } from '@/sanity/lib/live'
-import React from 'react'
+import React from "react";
+import Article from "@/components/Article";
+import ContactSection from "@/components/ContactSection";
 
 import type { Metadata } from "next";
+import { adminDatabase } from "@/lib/firebaseAdmin";
 
 export const metadata: Metadata = {
     title: "Articles",
@@ -29,7 +26,7 @@ export const metadata: Metadata = {
         title: "Articles | Nikhil Sai Ankilla",
         description:
             "Explore articles and insights by Nikhil on modern web development, best practices, and tools like React, Next.js, and TypeScript.",
-        url: "https://nikhilsaiportfolio.vercel.app/articles",
+        url: "https://nikhilsaiankilla.blog/articles",
         siteName: "Nikhil Sai Ankilla Portfolio",
         images: [
             {
@@ -51,30 +48,69 @@ export const metadata: Metadata = {
         images: ["/opengraph-image.png"],
     },
     alternates: {
-        canonical: "https://nikhilsaiportfolio.vercel.app/articles",
+        canonical: "https://nikhilsaiankilla.blog/articles",
     },
 };
 
 export const revalidate = 60;
 
-const page = async () => {
-    const { data: posts } = await sanityFetch({ query: FETCH_ARTICLES })
+async function getPosts() {
+    try {
+        const res = await adminDatabase.collection("articles").orderBy("createdAt", "asc").limit(3).get();
+
+        if (res.empty) {
+            return [];
+        }
+
+        const posts: Article[] = res.docs.map((doc: any) => {
+            const data = doc.data();
+
+            return {
+                id: doc.id,
+                title: data.title,
+                tagline: data.tagline,
+                description: data.description,
+                image: data.image,
+                createdAt: data.createdAt
+            }
+        });
+        return posts;
+    } catch (error) {
+        console.log("Error fetching posts:", error);
+        return [];
+    }
+}
+
+const Page = async () => {
+    const posts = await getPosts(); // default: 6 articles
+
     return (
-        <div className="page">
-            <ThemeSwitcher />
-            <BackBtn />
-            <h1 className="section-title my-5 text-3xl">Articles</h1>
-            <div className="w-full grid grid-cols-1 gap-3">
+        <div className="w-full px-5 md:px-24 lg:px-52 bg-[#F0F1F3]">
+            <div className="mt-16">
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">
+                    Articles
+                </h1>
+                <p className="text-muted-foreground text-sm">
+                    A collection of my writings on building, learning, and experimenting with web technologies and creative ideas.
+                </p>
+            </div>
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-5">
                 {posts && posts.length > 0 ? (
-                    posts.map((article: any) => <Article key={article._id} article={article} />)
+                    posts.map((article, index) => (
+                        <Article key={article.id} article={article} />
+                    ))
                 ) : (
-                    <p className="text-light-secondary dark:text-dark-secondary">No articles available.</p>
+                    <p className="text-light-secondary dark:text-dark-secondary">
+                        No articles available.
+                    </p>
                 )}
             </div>
 
-            <ContactSection />
+            <div className="mt-10">
+                <ContactSection />
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default page
+export default Page;

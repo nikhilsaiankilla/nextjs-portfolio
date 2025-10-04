@@ -1,7 +1,7 @@
 "use client";
 
 import { useToast } from '@/hooks/use-toast';
-import { Copy } from 'lucide-react';
+import { Copy, Mail } from 'lucide-react';
 import React from 'react';
 
 const CopyEmail = () => {
@@ -26,16 +26,14 @@ const CopyEmail = () => {
     };
 
     return (
-        <div className="flex items-center gap-2">
+        <div
+            onClick={handleCopy}
+            aria-label="Copy email to clipboard"
+            title="Click to copy email"
+            className="flex items-center gap-2 p-3 rounded-lg border cursor-pointer border-black transition-all duration-300 ease-in-out hover:bg-black hover:text-white group">
             {/* Accessible button with icon */}
-            <button
-                onClick={handleCopy}
-                aria-label="Copy email to clipboard"
-                title="Click to copy email"
-                className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-            >
-                <Copy size={17} aria-hidden="true" />
-            </button>
+
+            <Mail />
 
             {/* Display email next to icon */}
             <span className="email text-sm select-text">nikhilsaiankilla@gmail.com</span>

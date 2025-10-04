@@ -1,78 +1,33 @@
-import React from 'react';
-import Skill from './Skill';
+import React from "react";
+import type { Skill } from "@/types";
+import { SkillCard } from "./SkillCard";
 
-type Props = {
-    skills: Array<{
-        _id: string;
-        name: string;
-        iconUrl: string;
-    }>;
-};
+type Props = { skills: Skill[] };
 
-// Define the skills to prioritize (case-insensitive)
-const IMPORTANT_SKILLS = ['Ts', 'Next Js', 'Js', 'React Js', 'Tailwind CSS'];
-
-const SkillSection = async ({ skills }: Props) => {
-    const normalizedSkills = skills.map((skill) => {
-        let name = skill.name.toLowerCase();
-        if (name === "typescript ") {
-            return { ...skill, name: "Ts" };
-        }
-        if (name === "javascript ") {
-            return { ...skill, name: "Js" };
-        }
-
-        if (name === "tailwind css") {
-            return { ...skill, name: "Tailwind" };
-        }
-        return skill;
+// Skill Section grouped by category
+const SkillSection = ({ skills }: Props) => {
+    // Group skills by category
+    const skillsByCategory: Record<string, Skill[]> = {};
+    skills.forEach((skill) => {
+        const category = skill.category || "Other";
+        if (!skillsByCategory[category]) skillsByCategory[category] = [];
+        skillsByCategory[category].push(skill);
     });
 
-    const importantSkills = normalizedSkills.filter((skill) =>
-        IMPORTANT_SKILLS.some(
-            (important) => skill.name.toLowerCase() === important.toLowerCase()
-        )
-    );
-
-    const otherSkills = normalizedSkills.filter(
-        (skill) =>
-            !IMPORTANT_SKILLS.some(
-                (important) => skill.name.toLowerCase() === important.toLowerCase()
-            )
-    );
-
-    const sortedSkills = [...importantSkills, ...otherSkills];
-
     return (
-        <section
-            id="stack"
-            className="w-full my-20"
-            aria-labelledby="stack-heading"
-        >
-            <h2
-                id="stack-heading"
-                className="section-title my-4"
-                role="heading"
-                aria-level={2}
-            >
-                Tech Stack
-            </h2>
+        <section className="w-full my-16">
+            <h1 className="text-3xl font-bold mb-8">Tech Stack</h1>
 
-            <div
-                className="w-full grid grid-cols-4 sm:grid-cols-7 md:grid-cols-9 gap-6 sm:gap-4 md:gap-8"
-                role="list"
-                aria-label="Technologies and tools I use"
-            >
-                {sortedSkills.length > 0 ? (
-                    sortedSkills.map((skill) => (
-                        <Skill key={skill._id} skill={skill} />
-                    ))
-                ) : (
-                    <p className="text-light-secondary dark:text-dark-secondary">
-                        No skills available.
-                    </p>
-                )}
-            </div>
+            {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
+                <div key={category} className="mb-8">
+                    <h2 className="text-lg font-semibold mb-4">{category}</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                        {categorySkills.map((skill) => (
+                            <SkillCard key={skill.id} name={skill.name} iconUrl={skill.image} />
+                        ))}
+                    </div>
+                </div>
+            ))}
         </section>
     );
 };

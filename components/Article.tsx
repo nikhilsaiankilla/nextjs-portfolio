@@ -1,84 +1,65 @@
-import Image from 'next/image';
-import React from 'react';
-import NextPageBtn from './NextPageBtn';
-import { ArrowRight } from 'lucide-react';
-import { reduceSize } from '@/lib/utils';
-import Link from 'next/link';
-import { urlFor } from '@/sanity/lib/image';
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import type { Article } from "@/types";
 
 interface ArticleProps {
-    article: {
-        _id: string;
-        title: string;
-        content: { children: { text: string }[] }[];
-        image?: { _type: 'image'; asset: { _ref: string } };
-        slug: { current: string };
-    };
+    article: Article;
 }
 
-/**
- * Displays an individual article preview with image, title, and excerpt.
- */
 const Article: React.FC<ArticleProps> = ({ article }) => {
     if (!article) return null;
 
-    const { title, _id, image, content } = article;
-
-    const imageUrl = image
-        ? urlFor(image.asset._ref).url()
-        : 'https://via.placeholder.com/500';
-
-    // Grab the first piece of visible content
-    const previewText = content?.[0]?.children?.[0]?.text || 'No preview available';
+    const { title, image, id, description, createdAt } = article;
+    const articleLink = `/articles/${id}`;
 
     return (
-        <article
-            className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 group"
-            role="article"
-            aria-labelledby={`article-title-${_id}`}
+        <Link
+            href={articleLink}
+            aria-label={`Read full article: ${title}`}
+            className="group flex flex-col gap-4 bg-gray-100 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
         >
-            {/* Article Image */}
-            <div className="w-full aspect-video bg-gray-300 rounded-md overflow-hidden" role="img" aria-label={`Image for article: ${title}`}>
-                <Link href={`/article/${_id}`} aria-label={`Read more about: ${title}`}>
-                    <Image
-                        src={imageUrl}
-                        alt={`Cover image for article: ${title}`}
-                        width={500}
-                        height={400}
-                        className="w-full h-full group-hover:scale-105 transition-all duration-500 ease-in-out object-cover"
-                        loading="lazy"
-                    />
-                </Link>
+            {/* Image */}
+            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
+                <Image
+                    src={image || "https://via.placeholder.com/800x450.png?text=Article+Image"}
+                    alt={title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-[1.05]"
+                />
             </div>
 
-            {/* Article Content */}
-            <div className="w-full h-auto md:h-full flex flex-col justify-between">
-                <Link href={`/article/${_id}`} aria-labelledby={`article-title-${_id}`}>
-                    <h3
-                        id={`article-title-${_id}`}
-                        className="text-lg font-bold text-light-accent dark:text-dark-accent"
-                    >
-                        {title}
-                    </h3>
-                </Link>
+            {/* Content */}
+            <div className="flex flex-col px-3 pb-3">
+                <h3 className="text-xl font-semibold tracking-tight text-dark-accent dark:text-light-accent group-hover:underline underline-offset-4 decoration-1 decoration-gray-400 transition-colors duration-200">
+                    {title}
+                </h3>
 
-                <p className="text-sm leading-tight font-normal text-light-secondary dark:text-dark-secondary" aria-label="Article preview">
-                    {reduceSize(previewText, 300)}
+                <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
+                    {description}
                 </p>
 
-                <Link href={`/article/${_id}`} className="w-full flex justify-end" aria-label={`Read full article: ${title}`}>
-                    <NextPageBtn
-                        title="Read Article"
-                        icon={
-                            <ArrowRight
-                                size={14}
-                                className="group-hover:-rotate-45 transition-all duration-200 ease-in-out"
-                            />
-                        }
+                <span className="flex items-center mt-3">
+                    <p className="text-sm text-gray-600 mr-2">Posted On:</p>
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                        {createdAt && new Date(createdAt).toLocaleDateString("en-US", {
+                            year: 'numeric',
+                            month: 'long',
+                            day: "numeric"
+                        })}
+                    </p>
+                </span>
+
+                <div className="mt-3 flex items-center gap-1 text-sm font-medium text-dark-accent/80 dark:text-light-accent/80 group-hover:text-dark-accent dark:group-hover:text-light-accent transition-colors">
+                    Read Article
+                    <ArrowRight
+                        size={15}
+                        className="transition-transform duration-300 ease-in-out group-hover:-rotate-45 group-hover:translate-x-1"
                     />
-                </Link>
+                </div>
             </div>
-        </article>
+        </Link>
     );
 };
 
