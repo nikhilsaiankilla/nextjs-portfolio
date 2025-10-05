@@ -1,10 +1,11 @@
+export const revalidate = 60
+
 import ContactSection from "@/components/ContactSection";
 import EducationSection from "@/components/EducationSection";
 import ProjectSection from "@/components/ProjectSection";
 import ArticleSection from "@/components/ArticleSection";
 import SkillSection from "@/components/SkillSection";
 import ExperienceSection from "@/components/v2/ExperienceSection";
-import Navbar from "@/components/v2/Navbar";
 import CertificationsSection from "@/components/v2/CertificationsSection";
 
 import { adminDatabase } from "../../lib/firebaseAdmin";
