@@ -1,7 +1,6 @@
 import React from "react";
 import Project from "@/components/Project";
 import type { Metadata } from "next";
-import BackBtn from "@/components/BackBtn";
 import { adminDatabase } from "@/lib/firebaseAdmin";
 
 export const metadata: Metadata = {
@@ -62,7 +61,7 @@ export const revalidate = 60;
 
 async function getProjects() {
     try {
-        const res = await adminDatabase.collection("projects").orderBy("createdAt", "asc").get();
+        const res = await adminDatabase.collection("projects").orderBy("createdAt", "desc").get();
 
         if (res.empty) {
             return [];

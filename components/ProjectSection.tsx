@@ -12,7 +12,7 @@ const ProjectSection = ({ projects }: Props) => {
                 Projects
             </h2>
 
-            <div className="grid">
+            <div className="grid gap-5 md:gap-10">
                 {projects.length > 0 ? (
                     projects.map((project, index) => (
                         <Project key={project.id} project={project} index={index} />

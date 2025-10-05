@@ -14,7 +14,7 @@ import { markdownToHtmlText } from "@/lib/utils";
 
 async function getProjects() {
   try {
-    const res = await adminDatabase.collection("projects").orderBy("createdAt", "asc").limit(3).get();
+    const res = await adminDatabase.collection("projects").orderBy("createdAt", "desc").limit(3).get();
 
     if (res.empty) {
       return [];
@@ -71,7 +71,7 @@ async function getSkills() {
 
 async function getPosts() {
   try {
-    const res = await adminDatabase.collection("articles").orderBy("createdAt", "asc").limit(3).get();
+    const res = await adminDatabase.collection("articles").orderBy("createdAt", "desc").limit(3).get();
 
     if (res.empty) {
       return [];

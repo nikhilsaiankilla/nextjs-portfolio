@@ -149,7 +149,7 @@ async function getSkills(skillIds: string[]) {
 
 async function getProjects() {
     try {
-        const res = await adminDatabase.collection("projects").orderBy("createdAt", "asc").limit(3).get();
+        const res = await adminDatabase.collection("projects").orderBy("createdAt", "desc").limit(3).get();
 
         if (res.empty) {
             return [];
