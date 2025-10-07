@@ -20,21 +20,25 @@ async function getProjects() {
       return [];
     }
 
-    const projects: Project[] = res.docs.map((doc: any) => {
-      const data = doc.data();
+    const projects: Project[] = await Promise.all(
+      res.docs.map(async (doc: any) => {
+        const data = doc.data();
 
-      return {
-        id: doc.id,
-        title: data.title,
-        image: data.image,
-        tagline: data.tagline,
-        problem: data.problem,
-        description: data.description,
-        githubUrl: data.githubUrl,
-        demoUrl: data.demoUrl,
-        skills: Array.isArray(data.skills) ? data.skills : [],
-      }
-    })
+        const descriptionHtml = data?.description ? await markdownToHtmlText(data.description) : "";
+
+        return {
+          id: doc.id,
+          title: data.title,
+          image: data.image,
+          tagline: data.tagline,
+          problem: data.problem,
+          description: descriptionHtml,
+          githubUrl: data.githubUrl,
+          demoUrl: data.demoUrl,
+          skills: Array.isArray(data.skills) ? data.skills : [],
+        }
+      })
+    );
 
     return projects;
   } catch (error) {
