@@ -11,7 +11,7 @@ export const SkillCard = ({ name, iconUrl }: { name: string; iconUrl?: string })
                     <Image src={iconUrl} alt={name} width={28} height={28} className="object-contain" />
                 </div>
             )}
-            <span className="text-sm font-medium text-center break-words text-black">{name}</span>
+            <span className="text-xs font-medium text-center break-words text-black">{name}</span>
         </div>
     );
 };

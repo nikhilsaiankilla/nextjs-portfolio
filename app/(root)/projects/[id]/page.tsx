@@ -96,7 +96,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                                 <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
                                     Tech Stack
                                 </h3>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                     {skills.map((skill: any) => (
                                         <SkillCard
                                             key={skill.id}

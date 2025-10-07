@@ -130,8 +130,8 @@ export default async function Home() {
         </p>
       </section>
 
-      <ExperienceSection />
       <ProjectSection projects={projects} />
+      <ExperienceSection />
       <SkillSection skills={skills} />
       <EducationSection />
       <CertificationsSection />
