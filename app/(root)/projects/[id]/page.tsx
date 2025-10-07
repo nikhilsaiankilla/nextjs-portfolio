@@ -28,7 +28,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="w-full px-5 md:px-24 lg:px-52 bg-[#F0F1F3]" aria-label={`Project page for ${project.title}`}>
             <article className="w-full" aria-labelledby="project-title">
 
-                <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 items-start">
+                <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10 items-center">
                     {/* Project Image */}
                     <Image
                         src={project.image || "https://via.placeholder.com/500x500"}
@@ -39,7 +39,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                     />
 
                     {/* Project Details */}
-                    <div className="flex flex-col gap-6 p-5">
+                    <div className="flex flex-col gap-3 p-2">
                         {/* Title */}
                         <h1
                             id="project-title"
@@ -57,13 +57,13 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
                         {/* Problem */}
                         {project.problem && (
-                            <p className="text-sm italic text-gray-500 dark:text-gray-500 mt-3">
+                            <p className="text-sm italic text-gray-500 dark:text-gray-500">
                                 {project.problem}
                             </p>
                         )}
 
                         {/* Action Buttons */}
-                        <div className="flex gap-4 mt-4">
+                        <div className="flex gap-4">
                             <Button
                                 title="View Demo"
                                 destination={project.demoUrl}
@@ -92,11 +92,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
                         {/* Skills / Tech Stack */}
                         {skills.length > 0 && (
-                            <section className="mt-6">
+                            <section className="">
                                 <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
                                     Tech Stack
                                 </h3>
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                                     {skills.map((skill: any) => (
                                         <SkillCard
                                             key={skill.id}
