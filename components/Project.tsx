@@ -126,7 +126,7 @@ const Project: React.FC<ProjectProps> = ({ project, index }) => {
 
             {/* Image */}
             <Link
-                href={`/project/${id}`}
+                href={`/projects/${id}`}
                 aria-label={`View details of project titled ${title}`}
                 className="md:w-1/2 w-full relative rounded-2xl overflow-hidden"
             >
