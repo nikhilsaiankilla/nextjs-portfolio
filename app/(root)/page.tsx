@@ -12,6 +12,9 @@ import { adminDatabase } from "../../lib/firebaseAdmin";
 import { Article, Project, Skill } from "@/types";
 import { markdownToHtmlText } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
+import { getResume } from "@/lib/actions";
+import { ExternalLink, MessageCircle } from "lucide-react";
 
 async function getProjects() {
   try {
@@ -105,17 +108,32 @@ async function getPosts() {
   }
 }
 
+async function getResumeUrl() {
+  try {
+    const res = await getResume()
+
+    if (!res.success && !res.resumeUrl) {
+      return ""
+    }
+
+    return res.resumeUrl;
+  } catch (error: unknown) {
+    return ""
+  }
+}
 export default async function Home() {
   let projects: Project[] = [];
   let skills: Skill[] = [];
   let posts: Article[] = [];
+  let resumeUrl: string = ""
 
 
   try {
-    [projects, skills, posts] = await Promise.all([
+    [projects, skills, posts, resumeUrl] = await Promise.all([
       getProjects(),
       getSkills(),
       getPosts(),
+      getResumeUrl()
     ]);
   } catch (error) {
     console.error("Failed to fetch data from Firestore:", error);
@@ -138,9 +156,33 @@ export default async function Home() {
             creating scalable web applications, designing robust systems, and actively
             seeking new opportunities.
           </p>
+          <div className="flex items-center flex-wrap gap-5">
+            <Link
+              href='/contact'
+              className="border border-gray-500 rounded-full flex items-center p-2 group hover:border-gray-900 transition-all duration-300 ease-in-out w-full sm:w-fit"
+            >
+              <span className="p-2 rounded-full bg-gray-700 group-hover:bg-black transition-all duration-300 ease-in-out">
+                <MessageCircle className="text-white" />
+              </span>
+              <span className="px-4 text-lg font-semibold text-center w-full transition-colors duration-300 ease-in-out group-hover:text-black">
+                Hire Me
+              </span>
+            </Link>
+            <Link
+              href={resumeUrl}
+              className="border border-gray-500 rounded-full flex items-center p-2 group hover:border-gray-900 transition-all duration-300 ease-in-out w-full sm:w-fit"
+            >
+              <span className="p-2 rounded-full bg-gray-700 group-hover:bg-black transition-all duration-300 ease-in-out">
+                <ExternalLink className="text-white" />
+              </span>
+              <span className="px-4 text-lg text-center w-full font-semibold transition-colors duration-300 ease-in-out group-hover:text-black">
+                View Resume
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center lg:justify-end h-full">
           <Image
             src="/nikhil.jpeg"
             alt="Nikhil Sai Ankilla"
