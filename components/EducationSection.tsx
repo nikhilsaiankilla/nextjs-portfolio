@@ -51,15 +51,6 @@ const EducationSection = () => {
                         "Effectively managed teams for college-driven coding events, developing strong leadership and collaboration skills."
                     ]}
                 />
-                <EducationEntry
-                    location="Hyderabad, India"
-                    year="2019 - 2021"
-                    university="Sri Gayathri Junior College"
-                    course="Intermediate (M.P.C)"
-                    descriptionPoints={[
-                        "Strengthened analytical and problem-solving skills through in-depth study of mathematics, physics, and logical reasoning."
-                    ]}
-                />
             </div>
         </section>
     );

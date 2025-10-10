@@ -11,6 +11,7 @@ import CertificationsSection from "@/components/v2/CertificationsSection";
 import { adminDatabase } from "../../lib/firebaseAdmin";
 import { Article, Project, Skill } from "@/types";
 import { markdownToHtmlText } from "@/lib/utils";
+import Image from "next/image";
 
 async function getProjects() {
   try {
@@ -125,16 +126,35 @@ export default async function Home() {
       {/* Hero Sectio */}
       <section
         id="intro"
-        className="w-full min-h-[55vh] flex items-start mt-52 space-y-10 flex-col"
+        className="w-full min-h-[70vh] py-4 grid grid-cols-1 lg:grid-cols-2 items-center justify-between gap-10"
         aria-label="Intro section"
       >
-        <h1 className="text-4xl md:text-7xl font-bold">Hi, I'm Nikhil Sai.</h1>
-        <p className="text-sm md:text-2xl font-normal">
-          Software Development Engineer & Full-Stack Developer. Based in Hyderabad, creating scalable web applications, designing robust systems, and actively seeking new opportunities.
-        </p>
+        <div className="flex flex-col justify-center h-full space-y-6 text-left">
+          <h1 className="text-4xl md:text-7xl font-bold leading-tight">
+            Hi, I'm Nikhil Sai.
+          </h1>
+          <p className="text-sm md:text-2xl font-normal max-w-2xl text-muted-foreground">
+            Software Development Engineer & Full-Stack Developer. Based in Hyderabad,
+            creating scalable web applications, designing robust systems, and actively
+            seeking new opportunities.
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center h-full">
+          <Image
+            src="/nikhil.jpeg"
+            alt="Nikhil Sai Ankilla"
+            width={100}
+            height={100}
+            unoptimized
+            className="w-full lg:w-4/5 aspect-[3/4] object-cover rounded-2xl grayscale"
+          />
+        </div>
       </section>
 
-      <ProjectSection projects={projects} />
+      <div className="pt-12">
+        <ProjectSection projects={projects} />
+      </div>
       <ExperienceSection />
       <SkillSection skills={skills} />
       <EducationSection />

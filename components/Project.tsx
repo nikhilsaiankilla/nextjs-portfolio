@@ -9,20 +9,6 @@ interface ProjectProps {
     index: number;
 }
 
-// export type Project = {
-//     id: string;
-//     title: string;
-//     image: string;
-//     tagline?: string;
-//     problem?: string;
-//     description?: string;
-//     githubUrl?: string;
-//     demoUrl?: string;
-//     createdAt?: number;
-//     updatedAt?: number;
-//     skills: string[];
-// };
-
 const Project: React.FC<ProjectProps> = ({ project, index }) => {
     if (!project) return null;
 
@@ -35,7 +21,7 @@ const Project: React.FC<ProjectProps> = ({ project, index }) => {
                 }`}
         >
             {/* Content */}
-            <div className="flex-1 relative p-8 flex flex-col justify-end">
+            <div className="flex-1 relative p-4 md:p-8 flex flex-col justify-end">
                 {/* Big Index in Background */}
                 <h1
                     className={`absolute -top-6 md:-top-10 z-0 ${!isEven ? "-left-4 md:-left-8" : "-right-4 md:-right-8"
@@ -70,11 +56,11 @@ const Project: React.FC<ProjectProps> = ({ project, index }) => {
                     )}
 
                     {/* Description */}
-                    {description && (
+                    {/* {description && (
                         <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mt-3 line-clamp-4 leading-relaxed">
                             {description}
                         </p>
-                    )}
+                    )} */}
 
                     {/* Links */}
                     <div className="flex items-center gap-4 flex-wrap mt-5">

@@ -19,17 +19,6 @@ const ArticleSection = ({ posts }: Props) => {
                     <BookOpen size={24} />
                     Articles & Publications
                 </h2>
-                <Link
-                    href="/articles"
-                    className="flex items-center gap-2 text-sm md:text-base font-semibold text-black transition-transform duration-200 ease-in-out hover:translate-x-1 group"
-                >
-                    View more posts
-                    <ArrowRight
-                        size={16}
-                        className="transition-transform duration-200 ease-in-out group-hover:rotate-45"
-                        aria-hidden="true"
-                    />
-                </Link>
             </div>
 
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -43,6 +32,19 @@ const ArticleSection = ({ posts }: Props) => {
                     </p>
                 )}
             </div>
+            {
+                posts && posts.length > 0 && <Link
+                    href="/articles"
+                    className="flex items-center gap-2 text-sm md:text-base font-semibold text-black transition-transform duration-200 ease-in-out hover:translate-x-1 group"
+                >
+                    View more posts
+                    <ArrowRight
+                        size={16}
+                        className="transition-transform duration-200 ease-in-out group-hover:rotate-45"
+                        aria-hidden="true"
+                    />
+                </Link>
+            }
         </section>
     );
 };

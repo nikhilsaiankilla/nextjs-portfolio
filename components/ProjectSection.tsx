@@ -26,7 +26,7 @@ const ProjectSection = ({ projects }: Props) => {
                         projects.length > 0 && < Link
                             href={`/projects`}
                             aria-label={`take to more projects page`}
-                            className="flex absolute right-0 items-center gap-2 text-lg text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
+                            className="flex absolute right-0 items-center gap-2 text-sm md:text-lg text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
                         >
                             More Projects
                             <ArrowRight
