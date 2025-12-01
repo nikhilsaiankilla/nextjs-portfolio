@@ -96,29 +96,41 @@ async function getProjects() {
 }
 
 const ProjectSection = async () => {
-    const projects = await getProjects(); // default: 6 projects
+    const projects = await getProjects();
 
     return (
-        <section id="projects" className="w-full px-5 md:px-24 lg:px-52 pt-5 pb-10 bg-[#F0F1F3] space-y-10">
-            <div className="mt-16">
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                    Projects
-                </h1>
-                <p className="text-muted-foreground text-sm">
-                    Explore some of the projects I’ve built using modern full stack
-                    technologies like Next.js, React, Node.js, and more.
-                </p>
-            </div>
-            <div className="w-full grid grid-cols-1 gap-14 mt-20">
-                {projects && projects.length > 0 ? (
-                    projects.map((project, index) => (
-                        <Project key={project.id} project={project} index={index} />
-                    ))
-                ) : (
-                    <p className="text-light-secondary dark:text-dark-secondary">
-                        No Projects available.
-                    </p>
-                )}
+        <section id="projects" className="w-full px-5 md:px-12 lg:px-24 py-16 bg-[#F0F1F3] dark:bg-black min-h-screen">
+            <div className="max-w-7xl mx-auto space-y-12">
+                {/* Header */}
+                <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-gray-300 dark:border-gray-800 pb-8">
+                    <div className="space-y-4 max-w-2xl">
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            All Projects
+                        </h1>
+                        <p className="text-lg text-muted-foreground">
+                            A collection of applications, experiments, and system designs I've engineered.
+                        </p>
+                    </div>
+                    <div className="text-right hidden md:block">
+                        <span className="text-4xl font-mono font-bold text-gray-300 dark:text-gray-700">
+                            {projects?.length || 0}
+                        </span>
+                        <span className="block text-sm text-gray-500 uppercase tracking-widest mt-1">Total Works</span>
+                    </div>
+                </div>
+
+                {/* The Grid - Dynamic Columns */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                    {projects && projects.length > 0 ? (
+                        projects.map((project, index) => (
+                            <Project key={project.id} project={project} index={index} />
+                        ))
+                    ) : (
+                        <div className="col-span-full py-20 text-center text-muted-foreground">
+                            No projects found.
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     );

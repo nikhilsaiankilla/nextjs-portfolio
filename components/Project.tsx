@@ -1,7 +1,9 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import type { Project } from "@/types";
 
 interface ProjectProps {
@@ -12,121 +14,74 @@ interface ProjectProps {
 const Project: React.FC<ProjectProps> = ({ project, index }) => {
     if (!project) return null;
 
-    const { id, title, description, tagline, image, demoUrl, githubUrl, problem } = project;
-    const isEven = index % 2 === 0;
+    const { id, title, tagline, image, demoUrl, githubUrl } = project;
+
+    // LAYOUT LOGIC:
+    // Make the 1st (index 0) and 7th (index 6) item a "Big Square"
+    // To stay square while spanning 2 columns, it must also span 2 rows.
+    const isLarge = index === 0 || index === 6;
 
     return (
         <div
-            className={`w-full relative border border-white/20 dark:border-black/20 shadow-xl rounded-2xl group cursor-pointer flex flex-col md:flex-row ${isEven ? "md:flex-row-reverse" : ""
-                }`}
+            className={`
+                group relative overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-gray-100 dark:bg-gray-900 
+                aspect-square 
+                ${isLarge ? "md:col-span-2 md:row-span-2" : "md:col-span-1 md:row-span-1"}
+            `}
         >
-            {/* Content */}
-            <div className="flex-1 relative p-4 md:p-8 flex flex-col justify-end">
-                {/* Big Index in Background */}
-                <h1
-                    className={`absolute -top-6 md:-top-10 z-0 ${!isEven ? "-left-4 md:-left-8" : "-right-4 md:-right-8"
-                        } text-[8rem] md:text-[15rem] font-extrabold text-dark-primary/10 dark:text-light-primary/10 leading-none select-none pointer-events-none`}
-                >
-                    0{index + 1}
-                </h1>
+            {/* Background Image */}
+            <Image
+                src={image || "https://via.placeholder.com/800"}
+                alt={title}
+                fill
+                className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                sizes={isLarge ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+            />
 
-                {/* Content Box */}
-                <div className="relative z-10 rounded-xl p-4 md:p-6">
-                    {/* Title */}
-                    <h2
-                        className="text-2xl md:text-3xl font-semibold text-gray-900 tracking-tight uppercase"
-                        role="heading"
-                        aria-level={2}
-                    >
-                        {title}
-                    </h2>
+            {/* Dark Overlay (visible on hover or always slightly visible for text readability) */}
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-300" />
 
-                    {/* Tagline */}
-                    {tagline && (
-                        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-1">
-                            {tagline}
-                        </p>
-                    )}
+            {/* Content Container */}
+            <div className="absolute inset-0 p-6 flex flex-col justify-between text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
 
-                    {/* Problem */}
-                    {problem && (
-                        <p className="text-sm italic text-gray-500 dark:text-gray-500 mt-3">
-                            {problem}
-                        </p>
-                    )}
-
-                    {/* Description */}
-                    {/* {description && (
-                        <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mt-3 line-clamp-4 leading-relaxed">
-                            {description}
-                        </p>
-                    )} */}
-
-                    {/* Links */}
-                    <div className="flex items-center gap-4 flex-wrap mt-5">
-                        {/* Project Link */}
+                {/* Top Right Actions */}
+                <div className="flex justify-end gap-2 translate-y-[-10px] group-hover:translate-y-0 transition-transform duration-300">
+                    {githubUrl && (
                         <Link
-                            href={demoUrl || "#"}
-                            aria-label={`Visit live project: ${title}`}
-                            className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
+                            href={githubUrl}
+                            target="_blank"
+                            className="p-2 bg-white/20 backdrop-blur-md rounded-full hover:bg-white hover:text-black transition-colors"
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            View Project
-                            <ArrowRight
-                                size={14}
-                                className="group-hover:-rotate-45 transition-transform duration-300 ease-in-out"
-                            />
+                            <Github size={20} />
                         </Link>
-
-                        {/* GitHub Link */}
-                        {githubUrl && (
-                            <Link
-                                href={githubUrl}
-                                aria-label={`View source code for ${title}`}
-                                className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
-                            >
-                                View Source Code
-                                <ArrowRight
-                                    size={14}
-                                    className="group-hover:-rotate-45 transition-transform duration-300 ease-in-out"
-                                />
-                            </Link>
-                        )}
-
-                        {id && (
-                            <Link
-                                href={`/projects/${id}`}
-                                aria-label={`View source code for ${title}`}
-                                className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200 hover:text-light-accent dark:hover:text-dark-accent transition-colors duration-150"
-                            >
-                                More Details
-                                <ArrowRight
-                                    size={14}
-                                    className="group-hover:-rotate-45 transition-transform duration-300 ease-in-out"
-                                />
-                            </Link>
-                        )}
-                    </div>
+                    )}
+                    <Link
+                        href={demoUrl || `/projects/${id}`}
+                        className="p-2 bg-white text-black rounded-full hover:scale-110 transition-transform"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <ArrowUpRight size={20} />
+                    </Link>
                 </div>
 
+                {/* Bottom Text Info */}
+                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <span className="flex items-center justify-center w-10 h-10 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-full shadow-xl border border-white/20 text-green-600 dark:text-green-400 font-mono text-sm font-bold mb-4">
+                        0{index + 1}
+                    </span>
+                    <h3 className={`${isLarge ? "text-3xl" : "text-xl"} font-bold leading-tight mb-2 capitalize`}>{title}</h3>
+                    <p className="text-sm text-gray-200 line-clamp-2">
+                        {tagline}
+                    </p>
+                </div>
             </div>
 
-            {/* Image */}
-            <Link
-                href={`/projects/${id}`}
-                aria-label={`View details of project titled ${title}`}
-                className="md:w-1/2 w-full relative rounded-2xl overflow-hidden"
-            >
-                <Image
-                    src={image || "https://via.placeholder.com/500"}
-                    alt={`Thumbnail for ${title}`}
-                    width={1000}
-                    height={600}
-                    className="w-full h-full aspect-square rounded-2xl object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
-            </Link>
+            {/* Entire Card Clickable Area */}
+            <Link href={`/projects/${id}`} className="absolute inset-0 z-0" aria-label={`View ${title}`} />
         </div>
     );
 };
 
 export default Project;
+
