@@ -148,14 +148,23 @@ export default async function Home() {
         aria-label="Intro section"
       >
         <div className="flex flex-col justify-center h-full space-y-6 text-left">
+
+          {/* --- BADGE MOVED HERE (Top of text column) --- */}
+          <div className="px-4 py-1.5 bg-green-600/20 rounded-full w-fit border-2 border-green-600/70 text-green-600 font-medium text-xs flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-600 animate-pulse" />
+            Available for Hire
+          </div>
+
           <h1 className="text-4xl md:text-7xl font-bold leading-tight">
             Hi, I'm Nikhil Sai.
           </h1>
+
           <p className="text-sm md:text-2xl font-normal max-w-2xl text-muted-foreground">
             Software Development Engineer & Full-Stack Developer. Based in Hyderabad,
             creating scalable web applications, designing robust systems, and actively
             seeking new opportunities.
           </p>
+
           <div className="flex items-center flex-wrap gap-5">
             <Link
               href='/contact'
